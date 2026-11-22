@@ -21,10 +21,10 @@ The tracker records public enforcement actions that concern biometric processing
 
 ## Security headers
 
-The site is hosted on GitHub Pages, which cannot set custom HTTP response headers. The page therefore sets Content-Security-Policy, Referrer-Policy and Permissions-Policy through `<meta>` tags. X-Content-Type-Options and X-Frame-Options (and CSP `frame-ancestors`, which browsers ignore in a `<meta>` tag) have no `<meta>` equivalent and cannot be set while the site is hosted on GitHub Pages. If the site moves to a host that allows response headers, those should be set server-side. See the README for the full note.
+The site is hosted on GitHub Pages, which cannot set custom HTTP response headers. The page therefore sets Content-Security-Policy and Referrer-Policy through `<meta>` tags. Permissions-Policy has no `<meta>` equivalent — browsers ignore a Permissions-Policy `<meta>` tag — and neither do X-Content-Type-Options and X-Frame-Options (and CSP `frame-ancestors`, which browsers ignore in a `<meta>` tag), so none of them can be set while the site is hosted on GitHub Pages. If the site moves to a host that allows response headers, those should be set server-side. The CSP needs `'unsafe-inline'` because all page JavaScript and CSS is inline, so it is a partial mitigation. See the README for the full note.
 
 ## The tracker data
 
-The tracker data itself is a public record of AI incidents, official responses and policy instruments, each with a source link. It contains no personal data beyond the names of public officials and office-holders named in the official sources.
+The tracker data itself is a public record of AI incidents, official responses and policy instruments, each with a source link. It contains no personal data: rows name regulators, companies and public bodies, not private individuals.
 
 Data: CC BY 4.0. Code: MIT. Corrections: suhaimizainalshah@gmail.com or GitHub issues.
