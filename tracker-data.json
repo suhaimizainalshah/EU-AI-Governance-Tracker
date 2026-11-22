@@ -918,8 +918,8 @@
    "names_risk": "no",
    "issuer": "Government of the Netherlands",
    "summary": "Government of the Netherlands action plan built on three pillars: capitalising on societal/economic opportunities, creating the right conditions (education, research, data, connectivity), and strengthening foundations (public values, human rights, trust and safety).",
-   "source_title": "Government of the Netherlands (Rijksoverheid)",
-   "source_url": "https://www.rijksoverheid.nl/documenten/beleidsnotas/2019/10/08/strategisch-actieplan-voor-artificiele-intelligentie",
+   "source_title": "Tweede Kamer, Parliamentary Papers blg-903667 (SAPAI report)",
+   "source_url": "https://zoek.officielebekendmakingen.nl/blg-903667.pdf",
    "more_sources": "",
    "confidence": "high",
    "verified_on": "2026-11-22",
@@ -1108,6 +1108,11 @@
    "date": "2026-11-22",
    "change": "Version 0.1: first release with 4 incidents, 9 responses and 17 instruments across the EU and 8 member states. Every row has a source link and a confidence rating.",
    "rows": "all"
+  },
+  {
+   "date": "2026-11-22",
+   "change": "Fixed NL-P-01 source link: the Rijksoverheid policy-note URL is dead (404), replaced with the official parliamentary publication of the SAPAI report (Tweede Kamer blg-903667). No data changed.",
+   "rows": "NL-P-01"
   }
  ],
  "events": [
