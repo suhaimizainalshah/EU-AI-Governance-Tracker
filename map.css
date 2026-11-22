@@ -28,7 +28,7 @@ html[data-theme="dark"] .tile:hover, html[data-theme="dark"] .tile:focus-visible
 .tile.bin-1, .swatch.bin-1 { background: #d6e9e1; }
 .tile.bin-2, .swatch.bin-2 { background: #a8d2bf; }
 .tile.bin-1, .tile.bin-2 { color: #1c2b26; }
-.tile.bin-3, .swatch.bin-3 { background: #5fae8d; color: #fff; }
+.tile.bin-3, .swatch.bin-3 { background: #5fae8d; color: #1c2b26; }
 .tile.bin-4, .swatch.bin-4 { background: #1b5e4f; color: #fff; }
 .tile.bin-3 .tile-name, .tile.bin-4 .tile-name { opacity: 0.9; }
 /* Tooltip: shown on hover / keyboard focus / tap (tap also selects). */
@@ -38,6 +38,10 @@ html[data-theme="dark"] .tile:hover, html[data-theme="dark"] .tile:focus-visible
  * so it never hangs off the side of the screen on a phone. */
 .tile.tip-left .tile-tip { left: 0; transform: none; }
 .tile.tip-right .tile-tip { left: auto; right: 0; transform: none; }
+/* Top-row and regional tiles: show the tooltip below the tile, so it never
+ * hangs off the top of the viewport when the map is at the top of the
+ * screen. */
+.tile.tip-below .tile-tip { bottom: auto; top: calc(100% + 6px); }
 .map-legend { display: flex; flex-wrap: wrap; gap: 0.4rem 0.9rem; align-items: center; margin: 0.75rem 0 0.25rem; font-size: 0.85rem; }
 .legend-title { font-weight: 600; }
 .legend-item { display: inline-flex; align-items: center; gap: 0.35rem; }
