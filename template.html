@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EU AI Governance Tracker</title>
+<meta name="description" content="A public, verifiable record of AI incidents, official responses and policy instruments across the European Union and its 27 member states. Every row has a source link.">
+<link rel="stylesheet" href="map.css">
+<style>
+:root { --bg:#f7f5f0; --surface:#fff; --text:#1c2b26; --muted:#5a6b65; --border:#c9d4cf; --accent:#1b5e4f; --accent-soft:#e3efe9; --pill:#eef2f0; --shadow:0 1px 4px rgba(0,0,0,.08); }
+html[data-theme="dark"] { --bg:#14201c; --surface:#1d2f29; --text:#e8efec; --muted:#a7b8b1; --border:#3a4f47; --accent:#7cc4a8; --accent-soft:#24443a; --pill:#24443a; --shadow:0 1px 4px rgba(0,0,0,.35); }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--text); font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+a { color:var(--accent); }
+.wrap { max-width:1100px; margin:0 auto; padding:0 1rem; }
+header.site { background:var(--surface); border-bottom:1px solid var(--border); }
+.head-row { display:flex; gap:1rem; align-items:center; padding:1rem 0; flex-wrap:wrap; }
+.head-row h1 { font-size:1.5rem; margin:0; line-height:1.2; }
+.head-row .sub { color:var(--muted); margin:.2rem 0 0; max-width:640px; }
+.counts { font-weight:600; }
+.meta-line { color:var(--muted); font-size:.9rem; }
+button.theme-toggle { margin-left:auto; border:1px solid var(--border); background:var(--surface); color:var(--text); border-radius:999px; padding:.35rem .8rem; cursor:pointer; }
+nav.tabs { display:flex; gap:.35rem; flex-wrap:wrap; padding:.6rem 0; }
+nav.tabs button { border:1px solid var(--border); background:var(--surface); color:var(--text); border-radius:999px; padding:.4rem .85rem; cursor:pointer; font-size:.92rem; }
+nav.tabs button.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+main { padding:1rem 0 2rem; }
+.layout { display:grid; grid-template-columns:240px 1fr; gap:1.25rem; align-items:start; }
+@media (max-width:820px){ .layout{ grid-template-columns:1fr; } }
+aside#rail { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:.9rem; position:sticky; top:.75rem; box-shadow:var(--shadow); }
+aside#rail h2 { font-size:.95rem; margin:.2rem 0 .6rem; }
+aside#rail label { display:block; font-size:.85rem; color:var(--muted); margin:.6rem 0 .25rem; }
+aside#rail input[type="search"], aside#rail select { width:100%; padding:.45rem .55rem; border:1px solid var(--border); border-radius:6px; background:var(--surface); color:var(--text); font:inherit; font-size:.92rem; }
+.country-btns { display:flex; flex-wrap:wrap; gap:.3rem; }
+.country-btns button { border:1px solid var(--border); background:var(--surface); color:var(--text); border-radius:999px; padding:.25rem .55rem; font-size:.82rem; cursor:pointer; }
+.country-btns button.on { background:var(--accent); border-color:var(--accent); color:#fff; }
+.rail-actions { display:flex; gap:.4rem; flex-wrap:wrap; margin-top:.8rem; }
+.rail-actions button { border:1px solid var(--border); background:var(--surface); color:var(--text); border-radius:6px; padding:.4rem .6rem; cursor:pointer; font-size:.85rem; }
+.rail-toggle{ display:none; }
+@media (max-width:820px){
+  /* On a phone the rail must never stick over the content: it scrolls away
+   * like everything else, and the filters collapse behind a toggle so the
+   * map and the rows are reachable without scrolling past a full screen
+   * of filter controls. This block must stay after the aside#rail rules
+   * above, so its position:static wins over the sticky base rule. */
+  aside#rail{ position:static; }
+  .rail-toggle{ display:block; width:100%; text-align:left; border:1px solid var(--border); background:var(--surface); color:var(--text); border-radius:8px; padding:.6rem .8rem; cursor:pointer; font:inherit; font-weight:600; min-height:44px; }
+  .rail-controls{ display:none; }
+  aside#rail.open .rail-controls{ display:block; }
+  .country-btns button{ padding:.4rem .65rem; min-height:36px; }
+  .rail-actions button{ padding:.5rem .7rem; min-height:40px; }
+}
+.hint { font-size:.82rem; color:var(--muted); margin:.5rem 0 0; }
+.chips { display:flex; flex-wrap:wrap; gap:.35rem; margin:.5rem 0; }
+.chip { background:var(--accent-soft); border-radius:999px; padding:.2rem .55rem; font-size:.82rem; }
+.chip button { border:0; background:none; color:inherit; cursor:pointer; font-weight:700; padding:0 .1rem; }
+.glance { display:flex; flex-wrap:wrap; gap:.5rem 1.25rem; background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:.6rem .9rem; margin:0 0 1rem; box-shadow:var(--shadow); }
+.glance b { font-size:1.05rem; }
+.map-box { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:1rem; margin:0 0 1rem; box-shadow:var(--shadow); }
+.map-box h2 { margin:.1rem 0 .6rem; font-size:1.05rem; }
+article.card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:1rem 1.1rem; margin:0 0 .9rem; box-shadow:var(--shadow); }
+article.card h3 { margin:.1rem 0 .4rem; font-size:1.08rem; line-height:1.35; }
+article.card .kicker { color:var(--muted); font-size:.88rem; }
+.pills { display:flex; flex-wrap:wrap; gap:.3rem; margin:.5rem 0; }
+.pill { background:var(--pill); border-radius:999px; padding:.15rem .55rem; font-size:.8rem; }
+.pill.binding { background:var(--accent-soft); font-weight:600; }
+details { margin-top:.6rem; }
+details summary { cursor:pointer; color:var(--accent); font-weight:600; }
+ol.steps { margin:.5rem 0; padding-left:1.2rem; }
+ol.steps li { margin:.35rem 0; }
+ol.steps .step-date { font-weight:600; }
+table.data { width:100%; border-collapse:collapse; background:var(--surface); font-size:.92rem; }
+table.data th, table.data td { border:1px solid var(--border); padding:.45rem .55rem; text-align:left; vertical-align:top; }
+table.data th { background:var(--pill); }
+section.panel { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:1rem 1.1rem; margin:0 0 1rem; box-shadow:var(--shadow); }
+section.panel h2 { margin:.1rem 0 .6rem; }
+.empty { color:var(--muted); padding:1rem 0; }
+footer.site { border-top:1px solid var(--border); background:var(--surface); padding:1rem 0 2rem; color:var(--muted); font-size:.9rem; }
+footer.site p { margin:.3rem 0; }
+.skip { position:absolute; left:-999px; }
+.skip:focus { left:.5rem; top:.5rem; background:var(--surface); padding:.5rem; z-index:50; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <div class="wrap head-row">
+    <svg viewBox="0 0 60 60" width="44" height="44" role="img" aria-label="European Union flag — a circle of twelve gold stars on blue">
+      <defs><path id="eustar" d="M0,-3.5 L0.82,-1.13 L3.33,-1.08 L1.33,0.43 L2.06,2.83 L0,1.4 L-2.06,2.83 L-1.33,0.43 L-3.33,-1.08 L-0.82,-1.13 Z"/></defs>
+      <rect width="60" height="60" rx="8" fill="#003399"/>
+      <g fill="#ffcc00">
+        <use href="#eustar" x="30" y="10"/><use href="#eustar" x="40" y="12.68"/><use href="#eustar" x="47.32" y="20"/><use href="#eustar" x="50" y="30"/><use href="#eustar" x="47.32" y="40"/><use href="#eustar" x="40" y="47.32"/><use href="#eustar" x="30" y="50"/><use href="#eustar" x="20" y="47.32"/><use href="#eustar" x="12.68" y="40"/><use href="#eustar" x="10" y="30"/><use href="#eustar" x="12.68" y="20"/><use href="#eustar" x="20" y="12.68"/>
+      </g>
+    </svg>
+    <div>
+      <h1>EU AI Governance Tracker</h1>
+      <p class="sub">A public, verifiable record of AI incidents, official responses and policy instruments across the European Union and its 27 member states. Every row has a source link.</p>
+      <p class="meta-line"><span class="counts" id="head-counts"></span> · <span id="head-verified"></span></p>
+    </div>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">Dark mode</button>
+  </div>
+  <div class="wrap">
+    <nav class="tabs" aria-label="Tracker sections" id="tabs"></nav>
+  </div>
+</header>
+<main id="main">
+  <div class="wrap">
+    <div class="map-box" id="map-main"><h2>Where the rows are</h2><div id="map-main-inner"></div></div>
+  </div>
+  <div class="wrap layout">
+    <aside id="rail" aria-label="Filters"></aside>
+    <div id="view"></div>
+  </div>
+</main>
+<footer class="site">
+  <div class="wrap">
+    <p id="credit"></p>
+    <p>Built and maintained by Suhaimi Zainal Shah · <a href="https://suhaimizainalshah.github.io/AI-Benar-Advisory/">AI Benar Advisory</a> — independent AI compliance and governance.</p>
+    <p>Modelled on the <a href="https://suhaimizainalshah.github.io/ASEAN-AI-Governance-Tracker/">ASEAN AI Governance Tracker</a>. Data: CC BY 4.0. Code: MIT. Corrections: suhaimizainalshah@gmail.com.</p>
+    <p>This page sets no cookies and collects no personal data.</p>
+  </div>
+</footer>
+<script src="map.js"></script>
+<script>
+const DATA = /*__DATA__*/null;
+(function () {
+  'use strict';
+  var $ = function (s) { return document.querySelector(s); };
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  var TABS = [['cases', 'Cases'], ['policies', 'Policies'], ['compare', 'Compare'], ['updates', 'Updates'], ['review', 'Review'], ['method', 'Method']];
+  var THEMES = ['deepfake-fraud', 'sexual-deepfakes', 'political-deepfakes', 'election-integrity', 'online-safety', 'general-ai', 'data-protection'];
+  var PLACE_NAMES = {};
+  DATA.places.forEach(function (p) { PLACE_NAMES[p.code] = p.name; });
+  var incById = {};
+  DATA.incidents.forEach(function (i) { incById[i.id] = i; });
+  var respByIncident = {};
+  DATA.responses.forEach(function (r) { if (r.incident_id) { (respByIncident[r.incident_id] = respByIncident[r.incident_id] || []).push(r); } });
+  var state = { tab: 'cases', q: '', countries: new Set(), theme: '', sort: 'new', metric: 'total' };
+  var REVIEW_KEY = 'euat_review_v1';
+  var railOpen = false; /* mobile filter panel, collapsed by default */
+  var mapIsMobile = null; /* tracks the map's mobile/desktop layout across resizes */
+
+  function readHash() {
+    var h = new URLSearchParams(location.hash.slice(1));
+    var t = h.get('tab');
+    if (t && TABS.some(function (x) { return x[0] === t; })) state.tab = t;
+    if (h.get('q')) state.q = h.get('q');
+    if (h.get('countries')) state.countries = new Set(h.get('countries').split(',').filter(Boolean));
+    if (h.get('theme')) state.theme = h.get('theme');
+  }
+  function writeHash() {
+    var h = new URLSearchParams();
+    h.set('tab', state.tab);
+    if (state.q) h.set('q', state.q);
+    if (state.countries.size) h.set('countries', Array.from(state.countries).join(','));
+    if (state.theme) h.set('theme', state.theme);
+    history.replaceState(null, '', '#' + h.toString());
+  }
+  function matchQ(row, fields) {
+    if (!state.q) return true;
+    var q = state.q.toLowerCase();
+    return fields.some(function (f) { return String(row[f] || '').toLowerCase().indexOf(q) !== -1; });
+  }
+  function matchCountry(code) { return state.countries.size === 0 || state.countries.has(code); }
+  function matchTheme(themes) { return !state.theme || (themes || '').split(';').indexOf(state.theme) !== -1; }
+  function sortRows(rows) {
+    var r = rows.slice();
+    r.sort(function (a, b) { return state.sort === 'old' ? (a.date < b.date ? -1 : 1) : (a.date > b.date ? -1 : 1); });
+    return r;
+  }
+  function filteredIncidents() {
+    return sortRows(DATA.incidents.filter(function (i) {
+      return matchQ(i, ['id', 'title', 'summary']) && matchCountry(i.country) && matchTheme(i.themes);
+    }));
+  }
+  function filteredInstruments() {
+    return sortRows(DATA.instruments.filter(function (p) {
+      return matchQ(p, ['id', 'title', 'summary', 'short_title']) && matchCountry(p.jurisdiction) && matchTheme(p.themes);
+    }));
+  }
+  function sourceLink(url, title) {
+    if (!url) return '';
+    return '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(title || url) + '</a>';
+  }
+  function themePills(themes) {
+    return (themes || '').split(';').filter(Boolean).map(function (t) {
+      return '<span class="pill">' + esc(t) + '</span>';
+    }).join('');
+  }
+  function glanceHTML() {
+    var incs = filteredIncidents();
+    var insts = filteredInstruments();
+    var incIds = {};
+    incs.forEach(function (i) { incIds[i.id] = true; });
+    var resps = DATA.responses.filter(function (r) {
+      if (r.incident_id) return !!incIds[r.incident_id];
+      return matchCountry(r.id.split('-')[0]);
+    }).length;
+    var places = {};
+    incs.forEach(function (i) { places[i.country] = true; });
+    insts.forEach(function (p) { places[p.jurisdiction] = true; });
+    return '<div class="glance"><span><b>' + incs.length + '</b> cases</span>' +
+      '<span><b>' + resps + '</b> official responses</span>' +
+      '<span><b>' + insts.length + '</b> policies tracked</span>' +
+      '<span><b>' + Object.keys(places).length + '</b> places covered</span></div>';
+  }
+  function chipsHTML() {
+    var chips = [];
+    state.countries.forEach(function (c) {
+      chips.push('<span class="chip">' + esc(c) + ' <button type="button" data-clear-country="' + esc(c) + '" aria-label="Clear ' + esc(c) + '">×</button></span>');
+    });
+    if (state.theme) chips.push('<span class="chip">' + esc(state.theme) + ' <button type="button" data-clear-theme="1" aria-label="Clear theme">×</button></span>');
+    if (state.q) chips.push('<span class="chip">“' + esc(state.q) + '” <button type="button" data-clear-q="1" aria-label="Clear search">×</button></span>');
+    return chips.length ? '<div class="chips">' + chips.join('') + '</div>' : '';
+  }
+  /* The map is a first-class section above the filter and the lists, on every
+   * tab — not buried inside one list. It renders into the persistent
+   * #map-main-inner container, so a list re-render never destroys it and
+   * the chosen metric survives (it lives in state.metric). Clicking a tile
+   * filters the tracker; from a tab without a list it switches to Cases. */
+  function renderMap() {
+    var el = document.getElementById('map-main-inner');
+    if (!el || typeof TileMap === 'undefined') return;
+    var selected = state.countries.size === 1 ? Array.from(state.countries)[0] : null;
+    TileMap.render(el, {
+      region: 'eu', data: DATA, metric: state.metric, selected: selected,
+      onSelect: function (code) {
+        state.countries = code ? new Set([code]) : new Set();
+        if (state.tab !== 'cases' && state.tab !== 'policies') state.tab = 'cases';
+        writeHash(); render();
+      },
+      onMetric: function (m) { state.metric = m; }
+    });
+    mapIsMobile = TileMap.isMobileLayout ? TileMap.isMobileLayout() : false;
+  }
+  function caseCard(i) {
+    var resps = (respByIncident[i.id] || []).slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+    var binding = resps.filter(function (r) { return r.binding === 'yes'; }).length;
+    var html = '<article class="card"><p class="kicker">' + esc(i.date) + ' · ' + esc(i.country) + ' — ' + esc(PLACE_NAMES[i.country] || i.country) + '</p>';
+    html += '<h3>' + esc(i.title) + '</h3><p>' + esc(i.summary) + '</p>';
+    html += '<div class="pills">' + themePills(i.themes);
+    html += '<span class="pill">' + resps.length + ' official response' + (resps.length === 1 ? '' : 's') + '</span>';
+    if (binding) html += '<span class="pill binding">' + binding + ' binding</span>';
+    if (i.event_id) html += '<span class="pill">Event: ' + esc(i.event_id) + '</span>';
+    html += '</div>';
+    if (resps.length) {
+      html += '<details open><summary>Official responses (' + resps.length + ')</summary><ol class="steps">';
+      resps.forEach(function (r) {
+        html += '<li><span class="step-date">' + esc(r.date) + '</span> — <strong>' + esc(r.actor) + '</strong> (' + esc(r.type) + '): ' + esc(r.summary) + ' ' + sourceLink(r.source_url, r.source_title) + '</li>';
+      });
+      html += '</ol></details>';
+    }
+    html += '<details><summary>Sources and notes</summary><p>Incident source: ' + sourceLink(i.source_url, i.source_title) + '</p>';
+    if (i.more_sources) html += '<p>More: ' + sourceLink(i.more_sources) + '</p>';
+    if (i.notes) html += '<p>Notes: ' + esc(i.notes) + '</p>';
+    html += '<p>Confidence: ' + esc(i.confidence) + ' · Verified ' + esc(i.verified_on) + ' · ID ' + esc(i.id) + '</p></details></article>';
+    return html;
+  }
+  function policyCard(p) {
+    var html = '<article class="card"><p class="kicker">' + esc(p.date) + ' · ' + esc(p.jurisdiction) + ' — ' + esc(PLACE_NAMES[p.jurisdiction] || p.jurisdiction) + '</p>';
+    html += '<h3>' + esc(p.title) + '</h3>';
+    html += '<div class="pills"><span class="pill">' + esc(p.status.replace('_', ' ')) + '</span>';
+    html += '<span class="pill">' + (p.binding === 'yes' ? 'Binding' : 'Non-binding') + '</span>';
+    html += '<span class="pill">' + esc(p.layer) + '</span><span class="pill">' + esc(p.instrument_type) + '</span>';
+    html += themePills(p.themes) + '</div>';
+    html += '<p>' + esc(p.summary) + '</p>';
+    if (p.effective_date) html += '<p>In effect from ' + esc(p.effective_date) + '.</p>';
+    if (p.next_milestone) html += '<p>Next milestone: ' + esc(p.next_milestone) + '</p>';
+    html += '<p>Issuer: ' + esc(p.issuer) + ' · Source: ' + sourceLink(p.source_url, p.source_title) + '</p>';
+    if (p.notes) html += '<p>Notes: ' + esc(p.notes) + '</p>';
+    html += '<p>Confidence: ' + esc(p.confidence) + ' · Verified ' + esc(p.verified_on) + ' · ID ' + esc(p.id) + '</p></article>';
+    return html;
+  }
+  function renderCases() {
+    var rows = filteredIncidents();
+    var html = glanceHTML() + chipsHTML();
+    html += rows.length ? rows.map(caseCard).join('') : '<p class="empty">No cases match the current filters.</p>';
+    $('#view').innerHTML = html;
+  }
+  function renderPolicies() {
+    var rows = filteredInstruments();
+    var html = glanceHTML() + chipsHTML();
+    html += rows.length ? rows.map(policyCard).join('') : '<p class="empty">No policies match the current filters.</p>';
+    $('#view').innerHTML = html;
+  }
+  function renderCompare() {
+    var cov = DATA.coverage;
+    var codes = Object.keys(cov).sort(function (a, b) { return cov[b].total - cov[a].total; });
+    var html = '<section class="panel"><h2>Coverage by place</h2><table class="data"><thead><tr><th>Place</th><th>Cases</th><th>Cases with a response</th><th>Official responses</th><th>Binding actions</th><th>Policies</th><th>Total</th></tr></thead><tbody>';
+    codes.forEach(function (c) {
+      var v = cov[c];
+      html += '<tr><td>' + esc(v.name) + ' (' + esc(c) + ')</td><td>' + v.incidents + '</td><td>' + v.incidents_with_response + '</td><td>' + v.responses + '</td><td>' + v.binding + '</td><td>' + v.instruments + '</td><td>' + v.total + '</td></tr>';
+    });
+    html += '</tbody></table><p class="hint">Zero is a finding, not a gap in the sweep: a place with no verified row simply has no verified row yet. Unsure items are in the backlog, never in the data.</p></section>';
+    var byLayer = {};
+    DATA.instruments.forEach(function (p) { byLayer[p.layer] = (byLayer[p.layer] || 0) + 1; });
+    html += '<section class="panel"><h2>Policies by layer</h2><table class="data"><thead><tr><th>Layer</th><th>Policies</th></tr></thead><tbody>';
+    Object.keys(byLayer).sort(function (a, b) { return byLayer[b] - byLayer[a]; }).forEach(function (l) {
+      html += '<tr><td>' + esc(l) + '</td><td>' + byLayer[l] + '</td></tr>';
+    });
+    html += '</tbody></table></section>';
+    $('#view').innerHTML = html;
+  }
+  function renderUpdates() {
+    var html = '<section class="panel"><h2>Changelog</h2><table class="data"><thead><tr><th>Date</th><th>Change</th><th>Rows</th></tr></thead><tbody>';
+    DATA.changelog.forEach(function (c) {
+      html += '<tr><td>' + esc(c.date) + '</td><td>' + esc(c.change) + '</td><td>' + esc(c.rows) + '</td></tr>';
+    });
+    html += '</tbody></table></section>';
+    html += '<section class="panel"><h2>Backlog queue — ideas not yet verified</h2><p>These are not data. They are queued until a primary or official source confirms them.</p><table class="data"><thead><tr><th>Item</th><th>Place</th><th>Why it is queued</th><th>Priority</th></tr></thead><tbody>';
+    DATA.backlog.forEach(function (b) {
+      html += '<tr><td>' + esc(b.item) + '</td><td>' + esc(b.country) + '</td><td>' + esc(b.why) + '</td><td>' + esc(b.priority) + '</td></tr>';
+    });
+    html += '</tbody></table></section>';
+    $('#view').innerHTML = html;
+  }
+  function reviewTicks() {
+    try { return JSON.parse(localStorage.getItem(REVIEW_KEY) || '{}'); } catch (e) { return {}; }
+  }
+  function reviewTable(title, rows) {
+    var ticks = reviewTicks();
+    var html = '<h3>' + esc(title) + ' (' + rows.length + ')</h3>';
+    html += '<table class="data"><thead><tr><th>Checked</th><th>ID</th><th>What</th><th>Source</th><th>Confidence</th></tr></thead><tbody>';
+    rows.forEach(function (r) {
+      html += '<tr><td><input type="checkbox" class="review-check" data-id="' + esc(r.id) + '"' + (ticks[r.id] ? ' checked' : '') + ' aria-label="Checked ' + esc(r.id) + '"></td><td>' + esc(r.id) + '</td><td>' + esc(r.what) + '</td><td>' + sourceLink(r.url, r.source) + '</td><td>' + esc(r.confidence) + '</td></tr>';
+    });
+    html += '</tbody></table>';
+    return html;
+  }
+  function renderReview() {
+    var v = DATA.meta.verified;
+    var newInc = DATA.incidents.filter(function (i) { return i.verified_on === v; });
+    var newRes = DATA.responses.filter(function (r) { return r.verified_on === v; });
+    var newPol = DATA.instruments.filter(function (p) { return p.verified_on === v; });
+    var all = newInc.length + newRes.length + newPol.length;
+    var ticks = reviewTicks();
+    var checked = 0;
+    [newInc, newRes, newPol].forEach(function (rows) {
+      rows.forEach(function (r) { if (ticks[r.id]) checked += 1; });
+    });
+    var html = '<section class="panel"><h2>Review — rows verified ' + esc(v) + '</h2>';
+    html += '<p>Check each new row against its source before the update is merged. Ticks are stored in this browser only.</p>';
+    html += '<p><strong>Checked ' + checked + ' of ' + all + ' new rows.</strong> ';
+    html += '<button type="button" id="tick-all">Tick all</button> <button type="button" id="tick-clear">Clear ticks</button></p>';
+    html += reviewTable('New cases', newInc.map(function (i) { return { id: i.id, what: i.title, url: i.source_url, source: i.source_title, confidence: i.confidence }; }));
+    html += reviewTable('New official responses', newRes.map(function (r) { return { id: r.id, what: r.actor + ' — ' + r.summary.slice(0, 120), url: r.source_url, source: r.source_title, confidence: r.confidence }; }));
+    html += reviewTable('New policies', newPol.map(function (p) { return { id: p.id, what: p.title, url: p.source_url, source: p.source_title, confidence: p.confidence }; }));
+    html += '</section>';
+    html += '<section class="panel"><h2>Backlog queue</h2><p>' + DATA.backlog.length + ' items queued, not in the data.</p></section>';
+    $('#view').innerHTML = html;
+    var allBtn = document.getElementById('tick-all');
+    var clearBtn = document.getElementById('tick-clear');
+    if (allBtn) allBtn.addEventListener('click', function () {
+      var t = reviewTicks();
+      [newInc, newRes, newPol].forEach(function (rows) { rows.forEach(function (r) { t[r.id] = true; }); });
+      localStorage.setItem(REVIEW_KEY, JSON.stringify(t));
+      render();
+    });
+    if (clearBtn) clearBtn.addEventListener('click', function () {
+      localStorage.setItem(REVIEW_KEY, JSON.stringify({}));
+      render();
+    });
+  }
+  function renderMethod() {
+    $('#view').innerHTML = '<section class="panel"><h2>Method</h2>' +
+      '<p><strong>Verifiable-only.</strong> Every row has a source link to a primary or official source (the EU Official Journal, the European Commission, the EU AI Office, a member-state government or regulator). Anything unsure goes in the backlog, never into the data.</p>' +
+      '<p><strong>What counts as a response.</strong> Any action by a government body or a person with official authority: statements, advisories, investigations, orders, fines, laws. Company, party, researcher and news statements do not count.</p>' +
+      '<p><strong>Dates.</strong> An incident date is the earliest public record, with honest precision (day, month or year) and onset certainty (documented, approximate or unknown). A response dated before its incident is a build error.</p>' +
+      '<p><strong>Confidence.</strong> <em>High</em> means an official or primary source, or several agreeing sources. <em>Medium</em> means one secondary source or disagreement, explained in the notes.</p>' +
+      '<p><strong>Themes.</strong> deepfake-fraud, sexual-deepfakes, political-deepfakes, election-integrity, online-safety, general-ai, data-protection.</p>' +
+      '<p><strong>Scope.</strong> The 27 EU member states plus EU-wide instruments (the EU AI Act is EU-wide, not one member state). Country codes are ISO 3166-1 alpha-2 (GR for Greece). Nineteen member states have no verified row in this first release — a follow-up pass will target their national AI strategies and data-protection actions.</p>' +
+      '<p><strong>Workflow.</strong> Edit only <code>data/*.csv</code>; every row needs a source URL; run <code>python3 build.py</code> (the build refuses bad data); log changes in <code>data/changelog.csv</code>. Updates are proposed as a pull request and reviewed on the Review tab; nothing is pushed straight to main.</p>' +
+      '<p><strong>Licences.</strong> Data: CC BY 4.0. Code: MIT. Corrections: suhaimizainalshah@gmail.com.</p>' +
+      '<p>Modelled on the <a href="https://suhaimizainalshah.github.io/ASEAN-AI-Governance-Tracker/">ASEAN AI Governance Tracker</a>, by the same author.</p></section>';
+  }
+  function renderTabs() {
+    $('#tabs').innerHTML = TABS.map(function (t) {
+      return '<button type="button" data-tab="' + t[0] + '" class="' + (state.tab === t[0] ? 'active' : '') + '">' + t[1] + '</button>';
+    }).join('');
+    document.querySelectorAll('#tabs button').forEach(function (b) {
+      b.addEventListener('click', function () { state.tab = b.getAttribute('data-tab'); writeHash(); render(); });
+    });
+  }
+  function renderRail() {
+    var rail = $('#rail');
+    if (state.tab !== 'cases' && state.tab !== 'policies') {
+      rail.innerHTML = '<h2>About this tracker</h2><p>Every row has a source link. Unsure items go in the backlog, never into the data.</p><p><a href="#method" id="rail-method">Read the method</a></p>';
+      var m = document.getElementById('rail-method');
+      if (m) m.addEventListener('click', function (e) { e.preventDefault(); state.tab = 'method'; writeHash(); render(); });
+      return;
+    }
+    var counts = DATA.coverage;
+    var btns = DATA.places.map(function (pl) {
+      var c = counts[pl.code] || { incidents: 0, instruments: 0 };
+      var n = state.tab === 'cases' ? c.incidents : c.instruments;
+      return '<button type="button" data-code="' + esc(pl.code) + '" class="' + (state.countries.has(pl.code) ? 'on' : '') + '">' + esc(pl.code) + ' (' + n + ')</button>';
+    }).join('');
+    var activeFilters = state.countries.size + (state.theme ? 1 : 0) + (state.q ? 1 : 0);
+    rail.innerHTML = '<button type="button" class="rail-toggle" id="rail-toggle" aria-expanded="' + railOpen + '" aria-controls="rail-controls">Filters' + (activeFilters ? ' · ' + activeFilters + ' active' : '') + '</button>' +
+      '<div class="rail-controls" id="rail-controls"><h2>Filters</h2>' +
+      '<label for="q">Search</label><input type="search" id="q" placeholder="Agency, keyword or ID" value="' + esc(state.q) + '">' +
+      '<label>Where</label><div class="country-btns">' + btns + '</div>' +
+      '<p class="hint">Tap a place to narrow to it — no selection shows all 27 member states plus the EU.</p>' +
+      '<label for="theme">Theme</label><select id="theme"><option value="">All themes</option>' +
+      THEMES.map(function (t) { return '<option value="' + t + '"' + (state.theme === t ? ' selected' : '') + '>' + t + '</option>'; }).join('') + '</select>' +
+      '<label for="sort">Sort</label><select id="sort"><option value="new"' + (state.sort === 'new' ? ' selected' : '') + '>Newest first</option><option value="old"' + (state.sort === 'old' ? ' selected' : '') + '>Oldest first</option></select>' +
+      '<div class="rail-actions"><button type="button" id="reset">Reset filters</button><button type="button" id="copylink">Copy link to this view</button><button type="button" id="dl">Download these rows (CSV)</button></div></div>';
+    rail.classList.toggle('open', railOpen);
+    var tog = document.getElementById('rail-toggle');
+    if (tog) tog.addEventListener('click', function () {
+      railOpen = !railOpen;
+      rail.classList.toggle('open', railOpen);
+      tog.setAttribute('aria-expanded', railOpen ? 'true' : 'false');
+    });
+    document.getElementById('q').addEventListener('input', function (e) {
+      state.q = e.target.value; writeHash(); renderView();
+    });
+    document.querySelectorAll('#rail .country-btns button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var code = b.getAttribute('data-code');
+        if (state.countries.has(code)) state.countries.delete(code); else state.countries.add(code);
+        writeHash(); render();
+      });
+    });
+    document.getElementById('theme').addEventListener('change', function (e) { state.theme = e.target.value; writeHash(); render(); });
+    document.getElementById('sort').addEventListener('change', function (e) { state.sort = e.target.value; renderView(); });
+    document.getElementById('reset').addEventListener('click', function () {
+      state.q = ''; state.countries = new Set(); state.theme = ''; state.sort = 'new'; writeHash(); render();
+    });
+    document.getElementById('copylink').addEventListener('click', function () {
+      var btn = document.getElementById('copylink');
+      function done(msg) { btn.textContent = msg; setTimeout(function () { btn.textContent = 'Copy link to this view'; }, 1500); }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(location.href).then(function () { done('Link copied'); }, function () { done('Copy failed'); });
+      } else { done('Copy not supported'); }
+    });
+    document.getElementById('dl').addEventListener('click', downloadCSV);
+  }
+  function csvCell(v) {
+    var s = String(v == null ? '' : v);
+    return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  }
+  function downloadCSV() {
+    var rows, header;
+    if (state.tab === 'policies') {
+      header = ['id', 'jurisdiction', 'date', 'date_precision', 'effective_date', 'title', 'short_title', 'instrument_type', 'layer', 'binding', 'status', 'themes', 'names_risk', 'issuer', 'summary', 'source_title', 'source_url', 'more_sources', 'confidence', 'verified_on', 'next_milestone', 'next_check', 'notes'];
+      rows = filteredInstruments();
+    } else {
+      header = ['id', 'country', 'date', 'date_precision', 'onset_certainty', 'title', 'themes', 'event_id', 'summary', 'source_title', 'source_url', 'more_sources', 'confidence', 'verified_on', 'notes', 'aim_url'];
+      rows = filteredIncidents();
+    }
+    var out = header.join(',') + '\n' + rows.map(function (r) {
+      return header.map(function (h) { return csvCell(r[h]); }).join(',');
+    }).join('\n');
+    var blob = new Blob([out], { type: 'text/csv' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'eu-ai-governance-tracker-' + state.tab + '.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  }
+  function renderView() {
+    if (state.tab === 'cases') renderCases();
+    else if (state.tab === 'policies') renderPolicies();
+    else if (state.tab === 'compare') renderCompare();
+    else if (state.tab === 'updates') renderUpdates();
+    else if (state.tab === 'review') renderReview();
+    else renderMethod();
+  }
+  function render() {
+    renderTabs();
+    renderRail();
+    renderMap();
+    renderView();
+  }
+  // chips (event delegation on the view)
+  document.getElementById('view').addEventListener('click', function (e) {
+    var t = e.target;
+    if (t.hasAttribute('data-clear-country')) { state.countries.delete(t.getAttribute('data-clear-country')); writeHash(); render(); }
+    if (t.hasAttribute('data-clear-theme')) { state.theme = ''; writeHash(); render(); }
+    if (t.hasAttribute('data-clear-q')) { state.q = ''; writeHash(); render(); }
+  });
+  document.getElementById('view').addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.classList && t.classList.contains('review-check')) {
+      var ticks = reviewTicks();
+      if (t.checked) ticks[t.getAttribute('data-id')] = true; else delete ticks[t.getAttribute('data-id')];
+      localStorage.setItem(REVIEW_KEY, JSON.stringify(ticks));
+      renderView();
+    }
+  });
+  // header + theme
+  var c = DATA.meta.counts;
+  document.getElementById('head-counts').textContent = c.incidents + ' incidents · ' + c.responses + ' responses · ' + c.instruments + ' instruments';
+  document.getElementById('head-verified').textContent = 'Version ' + DATA.meta.version + ', last verified ' + DATA.meta.verified;
+  document.getElementById('credit').textContent = DATA.meta.credit;
+  var savedTheme = null;
+  try { savedTheme = localStorage.getItem('euat_theme'); } catch (e) { /* private mode */ }
+  if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+  function updateThemeBtn() {
+    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    var b = document.getElementById('theme-toggle');
+    b.setAttribute('aria-pressed', dark ? 'true' : 'false');
+    b.textContent = dark ? 'Light mode' : 'Dark mode';
+  }
+  document.getElementById('theme-toggle').addEventListener('click', function () {
+    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+    try { localStorage.setItem('euat_theme', dark ? 'light' : 'dark'); } catch (e) { /* private mode */ }
+    updateThemeBtn();
+  });
+  updateThemeBtn();
+  readHash();
+  window.addEventListener('hashchange', function () { readHash(); render(); });
+  /* The map switches between its 9-column and 6-column layouts at 640px;
+   * re-render when a resize crosses that breakpoint (e.g. rotating a phone). */
+  var resizeTimer = null;
+  window.addEventListener('resize', function () {
+    if (resizeTimer) clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      if (typeof TileMap !== 'undefined' && TileMap.isMobileLayout) {
+        if (TileMap.isMobileLayout() !== mapIsMobile) render();
+      }
+    }, 150);
+  });
+  render();
+})();
+</script>
+</body>
+</html>
