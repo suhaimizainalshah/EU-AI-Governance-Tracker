@@ -216,7 +216,8 @@
       var code = place.code;
       var c = counts[code] || { incidents: 0, responses: 0, instruments: 0, total: 0 };
       var bin = binIndex(c[metric], max);
-      var label = place.name + ': ' + c.incidents + ' incident' + (c.incidents === 1 ? '' : 's') +
+      /* The accessible name starts with the visible text (code, name, number), so voice-control users can say what they see. */
+      var label = code + ' ' + place.name + ' ' + c[metric] + ': ' + c.incidents + ' incident' + (c.incidents === 1 ? '' : 's') +
         ', ' + c.responses + ' response' + (c.responses === 1 ? '' : 's') +
         ', ' + c.instruments + ' instrument' + (c.instruments === 1 ? '' : 's') +
         ', ' + c.total + ' total';
@@ -231,10 +232,10 @@
       return '<button type="button" class="' + cls + '"' + pos +
         ' data-code="' + esc(code) + '" aria-pressed="' + (selected === code) + '"' +
         ' aria-label="' + esc(label) + '">' +
-        '<span class="tile-code">' + esc(code) + '</span>' +
-        '<span class="tile-name">' + esc(place.name) + '</span>' +
+        '<span class="tile-code">' + esc(code) + '</span> ' +
+        '<span class="tile-name">' + esc(place.name) + '</span> ' +
         '<span class="tile-value">' + c[metric] + '</span>' +
-        '<span class="tile-tip" role="tooltip">' + esc(place.name) + '<br>' +
+        '<span class="tile-tip" aria-hidden="true">' + esc(place.name) + '<br>' +
         c.incidents + ' incidents · ' + c.responses + ' responses<br>' +
         c.instruments + ' instruments · ' + c.total + ' total</span>' +
         '</button>';

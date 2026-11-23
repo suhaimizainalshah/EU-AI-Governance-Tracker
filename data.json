@@ -1598,6 +1598,11 @@
    "date": "2026-11-23",
    "change": "Update 2026-11-23: all 8 backlog items resolved — Toeslagenaffaire (NL-I-02, NL-R-03), Irish DPC Grok training inquiry (IE-R-02), Spain AI sandbox RD 817/2023 (ES-P-03), Germany KI-MIG now in force (DE-P-02), Italy LD 160/2026 and LD 179/2026 (IT-P-02, IT-P-03), Garante Character.AI fine (IT-R-04), Greek HDPA Clearview fine (GR-I-01, GR-R-01), and the Art. 50 marking duty covered by the new Art. 50 Guidelines (EU-P-09) and Transparency Code of Practice (EU-P-10) instead of a standalone row. Also added: Swedish IMY Clearview fine (SE-I-01, SE-R-01), Irish DPC Grok nudification inquiry (IE-R-03), Garante Replika €5m fine (IT-R-05), and national AI strategies for Finland, Estonia, Czechia, Austria, Portugal and Luxembourg (FI-P-01, EE-P-01, CZ-P-01, AT-P-01, PT-P-01, LU-P-01). Counts now 7 incidents, 16 responses, 29 instruments; 16 member states covered, 11 still without a verified row. Date note: the Transparency Code of Practice was published 10 June 2026 (IP/26/1328); 31 July 2026 was the signatory announcement (about 190 signatories).",
    "rows": "NL-I-02;NL-R-03;IE-R-02;IE-R-03;ES-P-03;DE-P-02;IT-P-02;IT-P-03;IT-R-04;IT-R-05;GR-I-01;GR-R-01;SE-I-01;SE-R-01;EU-P-09;EU-P-10;FI-P-01;EE-P-01;CZ-P-01;AT-P-01;PT-P-01;LU-P-01"
+  },
+  {
+   "date": "2026-11-23",
+   "change": "Template, 2026-11-23: the map now also appears on the Policies tab (clicking a tile filters the policies list). The EU flag is no longer used; the non-affiliation statement is kept. Added a Back to top button and footer links, and a header link to AI Benar Advisory. Map tiles: accessible names now start with their visible text (code, name, number) for voice-control users, hover tooltips are hidden from screen readers (the label carries the same details), and empty-tile names meet 4.5:1 contrast.",
+   "rows": ""
   }
  ],
  "events": [
