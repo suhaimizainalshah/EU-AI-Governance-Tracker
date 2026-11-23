@@ -13,7 +13,7 @@ from collections import Counter, defaultdict
 ROOT = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(ROOT, "data")
 VERSION = "0.1"
-VERIFIED = "2026-11-22"
+VERIFIED = "2026-11-23"
 CREDIT = "Prepared by Suhaimi Zainal Shah with assistance from Muse and Claude AI (Anthropic)."
 
 PLACES = [
