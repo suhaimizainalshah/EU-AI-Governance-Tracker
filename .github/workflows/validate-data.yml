@@ -1,0 +1,35 @@
+# Validate the tracker data on every pull request.
+#
+# Two checks, both of which must pass before a PR can merge:
+#   1. `frictionless validate datapackage.json` — schema checks on every
+#      CSV: required fields, date formats, unique IDs, valid country codes,
+#      well-formed source URLs, and foreign keys (responses point at real
+#      incidents/instruments).
+#   2. `python3 build.py` — the build's own, stricter checks: cross-row
+#      rules the schema cannot express (a response dated before its
+#      incident, unknown event links), plus it regenerates the site.
+# The build writes files but this job commits nothing; it only fails the PR.
+name: Validate data
+
+on:
+  pull_request:
+    paths:
+      - 'data/**'
+      - 'datapackage.json'
+      - 'build.py'
+      - '.github/workflows/validate-data.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install frictionless
+        run: pip install frictionless==5.18.1
+      - name: Validate CSVs against datapackage.json
+        run: frictionless validate datapackage.json
+      - name: Build the site (stricter cross-row checks)
+        run: python3 build.py

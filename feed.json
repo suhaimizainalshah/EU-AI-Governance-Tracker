@@ -1,0 +1,30 @@
+{
+ "version": "https://jsonfeed.org/version/1.1",
+ "title": "EU AI Governance Tracker — updates",
+ "home_page_url": "https://suhaimizainalshah.github.io/EU-AI-Governance-Tracker/",
+ "feed_url": "https://suhaimizainalshah.github.io/EU-AI-Governance-Tracker/feed.json",
+ "description": "Updates to the EU AI Governance Tracker: new verified rows, corrections and releases.",
+ "items": [
+  {
+   "id": "https://suhaimizainalshah.github.io/EU-AI-Governance-Tracker/index.html#tab=updates-2026-11-22-all",
+   "url": "https://suhaimizainalshah.github.io/EU-AI-Governance-Tracker/index.html#tab=updates",
+   "title": "Version 0.1: first release with 4 incidents, 9 responses and 17 instruments across the EU and 8 member states. Every row has a source lin…",
+   "content_text": "Version 0.1: first release with 4 incidents, 9 responses and 17 instruments across the EU and 8 member states. Every row has a source link and a confidence rating.",
+   "date_published": "2026-11-22T12:00:00+00:00"
+  },
+  {
+   "id": "https://suhaimizainalshah.github.io/EU-AI-Governance-Tracker/index.html#tab=updates-2026-11-22-NL-P-01",
+   "url": "https://suhaimizainalshah.github.io/EU-AI-Governance-Tracker/index.html#tab=updates",
+   "title": "Fixed NL-P-01 source link: the Rijksoverheid policy-note URL is dead (404), replaced with the official parliamentary publication of the S…",
+   "content_text": "Fixed NL-P-01 source link: the Rijksoverheid policy-note URL is dead (404), replaced with the official parliamentary publication of the SAPAI report (Tweede Kamer blg-903667). No data changed.",
+   "date_published": "2026-11-22T12:00:00+00:00"
+  },
+  {
+   "id": "https://suhaimizainalshah.github.io/EU-AI-Governance-Tracker/index.html#tab=updates-2026-11-22-IT-I-01;IT-R-01;IT-R-02;IT-R-03;FR-R-01;NL-R-01;EU-P-06;EU-P-08;DE-P-01;FR-P-01",
+   "url": "https://suhaimizainalshah.github.io/EU-AI-Governance-Tracker/index.html#tab=updates",
+   "title": "Audit and compliance fixes: Garante rows IT-I-01, IT-R-01, IT-R-02, IT-R-03 now cite the specific releases (not the press-room index); IT…",
+   "content_text": "Audit and compliance fixes: Garante rows IT-I-01, IT-R-01, IT-R-02, IT-R-03 now cite the specific releases (not the press-room index); IT-R-02 corrected — the Garante set conditions on 12 Apr 2023 for lifting the ChatGPT limitation, service resumed 28 Apr 2023; FR-R-01 now cites the CNIL sanction decision (SAN-2022-019, via Légifrance) with LINC kept as an additional source; NL-R-01 now cites the Autoriteit Persoonsgegevens decision page; EU-P-06, DE-P-01 and FR-P-01 now cite the specific guideline/strategy documents; EU-P-08 corrected to two new Art. 5 prohibitions (ba)–(bb) applicable from 2 Dec 2026. Template: dark-mode active-tab/country-button contrast fixed, general visible-focus rule added, EU-flag non-affiliation disclaimer added (footer and Method), Permissions-Policy meta tag removed (browsers ignore it; it has no meta equivalent). PRIVACY.md: personal-data sentence corrected. No counts changed.",
+   "date_published": "2026-11-22T12:00:00+00:00"
+  }
+ ]
+}

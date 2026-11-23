@@ -1,0 +1,11 @@
+# Domains that refuse automated link checkers (403/999 to bots) even though
+# the links work in a browser. Verified during the 22 Nov 2026 audit and
+# the 23 Nov 2026 link-check run (curl with a browser user-agent returns
+# 200 for gov.ie; Légifrance blocks automated requests outright).
+# One regex per line, matched against the full URL.
+https://www\.ohchr\.org/
+https://www\.economie\.gouv\.fr/
+https://minefi\.hosting\.augure\.com/
+https?://([a-z0-9-]+\.)?linkedin\.com/
+https://www\.gov\.ie/
+https://www\.legifrance\.gouv\.fr/

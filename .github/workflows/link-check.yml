@@ -1,0 +1,46 @@
+# Check every link in the built site.
+#
+# Runs on pull requests (so a broken source link fails the PR) and weekly
+# (so link rot in already-merged rows is caught too). The build runs first
+# so index.html and rows.html are current. The CSVs are NOT passed to
+# lychee directly: its raw-text extraction mangles comma-separated CSV
+# fields into false 404s (verified 23 Nov 2026 — every flagged CSV link
+# returned 200 when checked cleanly). The same source URLs are covered as
+# real links in rows.html, which the build regenerates from the CSVs.
+#
+# Bot-protected domains are excluded in .lycheeignore — they return 403/999
+# to automated checkers even though the links work in a browser.
+name: Link check
+
+on:
+  pull_request:
+    paths:
+      - '**.html'
+      - '**.md'
+      - 'data/**'
+      - 'build.py'
+      - 'template.html'
+      - '.lycheeignore'
+      - '.github/workflows/link-check.yml'
+  schedule:
+    # Mondays 06:00 UTC — a weekly sweep for link rot.
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build the site
+        run: python3 build.py
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --verbose --no-progress
+            --exclude-file .lycheeignore
+            ./index.html ./rows.html ./README.md ./PRIVACY.md

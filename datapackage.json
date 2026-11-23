@@ -1,0 +1,699 @@
+{
+ "description": "Verifiable record of AI incidents, official responses and policy instruments across the European Union and its 27 member states. Every row has a source link; unsure items live in backlog.csv, never in the data. Mirrors the checks in build.py (which also enforces cross-row rules the schema cannot express, such as a response dated before its incident).",
+ "licenses": [
+  {
+   "name": "CC-BY-4.0",
+   "path": "https://creativecommons.org/licenses/by/4.0/",
+   "title": "Creative Commons Attribution 4.0 International"
+  }
+ ],
+ "name": "eu-ai-governance-tracker",
+ "profile": "data-package",
+ "resources": [
+  {
+   "name": "incidents",
+   "path": "data/incidents.csv",
+   "profile": "tabular-data-resource",
+   "schema": {
+    "fields": [
+     {
+      "constraints": {
+       "required": true,
+       "unique": true
+      },
+      "name": "id",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "enum": [
+        "EU",
+        "AT",
+        "BE",
+        "BG",
+        "HR",
+        "CY",
+        "CZ",
+        "DK",
+        "EE",
+        "FI",
+        "FR",
+        "DE",
+        "GR",
+        "HU",
+        "IE",
+        "IT",
+        "LV",
+        "LT",
+        "LU",
+        "MT",
+        "NL",
+        "PL",
+        "PT",
+        "RO",
+        "SK",
+        "SI",
+        "ES",
+        "SE"
+       ],
+       "required": true
+      },
+      "name": "country",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "pattern": "^\\d{4}(-\\d{2})?(-\\d{2})?$",
+       "required": true
+      },
+      "name": "date",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "enum": [
+        "day",
+        "month",
+        "year"
+       ],
+       "required": true
+      },
+      "name": "date_precision",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "enum": [
+        "documented",
+        "approximate",
+        "unknown"
+       ],
+       "required": true
+      },
+      "name": "onset_certainty",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "required": true
+      },
+      "name": "title",
+      "type": "string"
+     },
+     {
+      "name": "themes",
+      "type": "string"
+     },
+     {
+      "name": "event_id",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "required": true
+      },
+      "name": "summary",
+      "type": "string"
+     },
+     {
+      "name": "source_title",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "pattern": "^https?://\\S+$",
+       "required": true
+      },
+      "name": "source_url",
+      "type": "string"
+     },
+     {
+      "name": "more_sources",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "enum": [
+        "high",
+        "medium"
+       ],
+       "required": true
+      },
+      "name": "confidence",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+      },
+      "name": "verified_on",
+      "type": "string"
+     },
+     {
+      "name": "notes",
+      "type": "string"
+     },
+     {
+      "name": "aim_url",
+      "type": "string"
+     }
+    ]
+   }
+  },
+  {
+   "name": "responses",
+   "path": "data/responses.csv",
+   "profile": "tabular-data-resource",
+   "schema": {
+    "fields": [
+     {
+      "constraints": {
+       "required": true,
+       "unique": true
+      },
+      "name": "id",
+      "type": "string"
+     },
+     {
+      "name": "incident_id",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "pattern": "^\\d{4}(-\\d{2})?(-\\d{2})?$",
+       "required": true
+      },
+      "name": "date",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "enum": [
+        "day",
+        "month",
+        "year"
+       ],
+       "required": true
+      },
+      "name": "date_precision",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "required": true
+      },
+      "name": "actor",
+      "type": "string"
+     },
+     {
+      "name": "actor_role",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "enum": [
+        "statement",
+        "advisory",
+        "engagement",
+        "block_takedown",
+        "restriction_lifted",
+        "enforcement",
+        "legislation"
+       ],
+       "required": true
+      },
+      "name": "type",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "enum": [
+        "yes",
+        "no"
+       ],
+       "required": true
+      },
+      "name": "binding",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "enum": [
+        "not_applicable",
+        "none_stated",
+        "new_law",
+        "existing_law"
+       ],
+       "required": true
+      },
+      "name": "legal_basis",
+      "type": "string"
+     },
+     {
+      "name": "instrument_id",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "required": true
+      },
+      "name": "summary",
+      "type": "string"
+     },
+     {
+      "name": "source_title",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "pattern": "^https?://\\S+$",
+       "required": true
+      },
+      "name": "source_url",
+      "type": "string"
+     },
+     {
+      "name": "more_sources",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "enum": [
+        "high",
+        "medium"
+       ],
+       "required": true
+      },
+      "name": "confidence",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+      },
+      "name": "verified_on",
+      "type": "string"
+     },
+     {
+      "name": "notes",
+      "type": "string"
+     }
+    ],
+    "foreignKeys": [
+     {
+      "fields": "incident_id",
+      "reference": {
+       "fields": "id",
+       "resource": "incidents"
+      }
+     },
+     {
+      "fields": "instrument_id",
+      "reference": {
+       "fields": "id",
+       "resource": "instruments"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "name": "instruments",
+   "path": "data/instruments.csv",
+   "profile": "tabular-data-resource",
+   "schema": {
+    "fields": [
+     {
+      "constraints": {
+       "required": true,
+       "unique": true
+      },
+      "name": "id",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "enum": [
+        "EU",
+        "AT",
+        "BE",
+        "BG",
+        "HR",
+        "CY",
+        "CZ",
+        "DK",
+        "EE",
+        "FI",
+        "FR",
+        "DE",
+        "GR",
+        "HU",
+        "IE",
+        "IT",
+        "LV",
+        "LT",
+        "LU",
+        "MT",
+        "NL",
+        "PL",
+        "PT",
+        "RO",
+        "SK",
+        "SI",
+        "ES",
+        "SE"
+       ],
+       "required": true
+      },
+      "name": "jurisdiction",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "pattern": "^\\d{4}(-\\d{2})?(-\\d{2})?$",
+       "required": true
+      },
+      "name": "date",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "enum": [
+        "day",
+        "month",
+        "year"
+       ],
+       "required": true
+      },
+      "name": "date_precision",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+      },
+      "name": "effective_date",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "required": true
+      },
+      "name": "title",
+      "type": "string"
+     },
+     {
+      "name": "short_title",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "enum": [
+        "guideline",
+        "institution",
+        "declaration",
+        "framework",
+        "strategy",
+        "law",
+        "circular",
+        "regulation",
+        "bill",
+        "agreement",
+        "partnership",
+        "policy",
+        "advisory"
+       ],
+       "required": true
+      },
+      "name": "instrument_type",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "enum": [
+        "Voluntary AI guidance",
+        "Institution",
+        "Strategy or declaration",
+        "Deepfake-specific rules",
+        "Online safety and platform rules",
+        "Data protection",
+        "Binding AI law",
+        "law"
+       ],
+       "required": true
+      },
+      "name": "layer",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "enum": [
+        "yes",
+        "no"
+       ],
+       "required": true
+      },
+      "name": "binding",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "enum": [
+        "in_force",
+        "adopted",
+        "draft",
+        "proposed",
+        "superseded"
+       ],
+       "required": true
+      },
+      "name": "status",
+      "type": "string"
+     },
+     {
+      "name": "themes",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "enum": [
+        "yes",
+        "no"
+       ],
+       "required": true
+      },
+      "name": "names_risk",
+      "type": "string"
+     },
+     {
+      "name": "issuer",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "required": true
+      },
+      "name": "summary",
+      "type": "string"
+     },
+     {
+      "name": "source_title",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "pattern": "^https?://\\S+$",
+       "required": true
+      },
+      "name": "source_url",
+      "type": "string"
+     },
+     {
+      "name": "more_sources",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "enum": [
+        "high",
+        "medium"
+       ],
+       "required": true
+      },
+      "name": "confidence",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+      },
+      "name": "verified_on",
+      "type": "string"
+     },
+     {
+      "name": "next_milestone",
+      "type": "string"
+     },
+     {
+      "name": "next_check",
+      "type": "string"
+     },
+     {
+      "name": "notes",
+      "type": "string"
+     }
+    ]
+   }
+  },
+  {
+   "name": "backlog",
+   "path": "data/backlog.csv",
+   "profile": "tabular-data-resource",
+   "schema": {
+    "fields": [
+     {
+      "constraints": {
+       "required": true
+      },
+      "name": "item",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "enum": [
+        "EU",
+        "AT",
+        "BE",
+        "BG",
+        "HR",
+        "CY",
+        "CZ",
+        "DK",
+        "EE",
+        "FI",
+        "FR",
+        "DE",
+        "GR",
+        "HU",
+        "IE",
+        "IT",
+        "LV",
+        "LT",
+        "LU",
+        "MT",
+        "NL",
+        "PL",
+        "PT",
+        "RO",
+        "SK",
+        "SI",
+        "ES",
+        "SE",
+        "all"
+       ],
+       "required": true
+      },
+      "name": "country",
+      "type": "string"
+     },
+     {
+      "name": "why",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "enum": [
+        "high",
+        "medium",
+        "low"
+       ],
+       "required": true
+      },
+      "name": "priority",
+      "type": "string"
+     }
+    ]
+   }
+  },
+  {
+   "name": "changelog",
+   "path": "data/changelog.csv",
+   "profile": "tabular-data-resource",
+   "schema": {
+    "fields": [
+     {
+      "constraints": {
+       "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+       "required": true
+      },
+      "name": "date",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "required": true
+      },
+      "name": "change",
+      "type": "string"
+     },
+     {
+      "name": "rows",
+      "type": "string"
+     }
+    ]
+   }
+  },
+  {
+   "name": "events",
+   "path": "data/events.csv",
+   "profile": "tabular-data-resource",
+   "schema": {
+    "fields": [
+     {
+      "constraints": {
+       "required": true,
+       "unique": true
+      },
+      "name": "id",
+      "type": "string"
+     },
+     {
+      "name": "title",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "pattern": "^\\d{4}(-\\d{2})?(-\\d{2})?$"
+      },
+      "name": "onset",
+      "type": "string"
+     },
+     {
+      "constraints": {
+       "enum": [
+        "day",
+        "month",
+        "year"
+       ]
+      },
+      "name": "onset_precision",
+      "type": "string"
+     },
+     {
+      "name": "summary",
+      "type": "string"
+     },
+     {
+      "name": "caution",
+      "type": "string"
+     },
+     {
+      "name": "regional_note",
+      "type": "string"
+     }
+    ]
+   }
+  }
+ ],
+ "title": "EU AI Governance Tracker — data"
+}

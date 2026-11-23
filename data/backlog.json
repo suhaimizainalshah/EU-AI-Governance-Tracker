@@ -1,0 +1,50 @@
+[
+ {
+  "item": "Dutch childcare benefits scandal (Toeslagenaffaire): parliamentary report 'Ongekend onrecht' and the Dutch DPA's €2.75m fine for unlawful nationality-based risk profiling",
+  "country": "NL",
+  "why": "Facts well established in secondary reporting, but no official Tweede Kamer or Autoriteit Persoonsgegevens URL retrieved as of 22 Nov 2026.",
+  "priority": "high"
+ },
+ {
+  "item": "Irish DPC statutory inquiry into X Internet Unlimited Company re Grok training, announced 11 April 2025",
+  "country": "IE",
+  "why": "Announced on dataprotection.ie and reported in secondary sources, but the direct DPC press-release URL was not retrieved as of 22 Nov 2026.",
+  "priority": "medium"
+ },
+ {
+  "item": "Spain AI regulatory sandbox, Royal Decree 817/2023 (8 Nov 2023)",
+  "country": "ES",
+  "why": "Mentioned in secondary sources; the BOE text was not retrieved as of 22 Nov 2026.",
+  "priority": "medium"
+ },
+ {
+  "item": "Germany AI Act implementing act (KI-MIG): draft bill designating the Federal Network Agency as market-surveillance authority",
+  "country": "DE",
+  "why": "Not adopted as far as could be verified, and no official bill text URL was retrieved as of 22 Nov 2026.",
+  "priority": "medium"
+ },
+ {
+  "item": "Italy Legislative Decrees 160/2026 and 179/2026 under Law 132/2025 (police use of AI, liability, authority powers and sanctions)",
+  "country": "IT",
+  "why": "Mentioned in secondary sources; Gazzetta texts not retrieved as of 22 Nov 2026.",
+  "priority": "high"
+ },
+ {
+  "item": "Garante fine against Character.AI",
+  "country": "IT",
+  "why": "Listed on the Garante press room, but date and amount were not verified as of 22 Nov 2026.",
+  "priority": "medium"
+ },
+ {
+  "item": "Greek HDPA fine against Clearview AI",
+  "country": "GR",
+  "why": "Known from secondary reporting; the HDPA decision was not retrieved as of 22 Nov 2026.",
+  "priority": "low"
+ },
+ {
+  "item": "EU AI Act Art. 50 transparency / machine-readable marking duty (2 Aug 2026) as a standalone entry",
+  "country": "EU",
+  "why": "An application date of the AI Act as amended, not a separate instrument; the Omnibus's changes to Art. 50 were not separately verified against the EUR-Lex text as of 22 Nov 2026.",
+  "priority": "medium"
+ }
+]

@@ -1,0 +1,11 @@
+[
+ {
+  "id": "grok-2026",
+  "title": "Grok image-generation misuse and EU response",
+  "onset": "2025-12-25",
+  "onset_precision": "day",
+  "summary": "Image-editing features on Grok, built into X, were used from late December 2025 to create non-consensual sexualised edits of real people, including minors. The European Commission opened DSA proceedings on 26 January 2026.",
+  "caution": "The onset date is the start of a documented analysis window of mass misuse; sources differ on the exact start, so day counts are approximate.",
+  "regional_note": "EU-level action: the Commission's DSA proceedings (IP/26/203) opened 26 January 2026; the Irish DPC had already concluded separate Grok training proceedings in September 2024."
+ }
+]
