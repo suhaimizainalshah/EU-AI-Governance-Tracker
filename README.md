@@ -17,14 +17,18 @@ Sixteen member states have a verified row (Austria, Czechia, Denmark, Estonia, F
 
 ## How to use it
 
-Open `index.html` (or the GitHub Pages site). Use the tabs: Cases, Policies, Compare, Updates, Review, Method. Filter by place, theme or search; download the filtered rows as CSV; copy a link to any filtered view. The Review tab lists every row verified on the latest date with tick boxes, for checking an update before it is merged.
+Open `index.html` (or the GitHub Pages site). Use the tabs: Cases, Policies, Compare, Updates, Review, Method. Filter by place, theme or search; download the filtered rows as CSV; copy a link to any filtered view. Every row has a stable link — use the "Copy link to this row" button on any card. Full-text search (top of the filter rail) covers every case, response and policy. The Review tab lists every row verified on the latest date with tick boxes, for checking an update before it is merged.
+
+The data is reusable: the full dataset is `data.json`, with one JSON file per row type under `data/` (e.g. `data/incidents.json`), and `rows.html` lists every row as plain text. Updates are available as [RSS](feed.xml) and [JSON Feed](feed.json), generated from the changelog at every build.
 
 ## Workflow
 
 - Edit only `data/*.csv`. Every row needs a source URL.
-- Run `python3 build.py`. The build refuses bad data: impossible dates, missing sources, unknown links, a response dated before its incident, duplicate IDs.
+- Run `python3 build.py`. The build refuses bad data: impossible dates, missing sources, unknown links, a response dated before its incident, duplicate IDs. It also regenerates `index.html`, the JSON exports, `rows.html` and the feeds.
+- Regenerate the search index: `npx -y pagefind@1.3.0 --site .` (committed under `pagefind/`; the index is static files, so search works with no server).
 - Log changes in `data/changelog.csv`.
 - Updates are proposed as a pull request and reviewed on the Review tab. Nothing is pushed straight to `main`.
+- Pull requests are checked automatically: `datapackage.json` validates the CSVs (required fields, date formats, unique IDs, valid country codes, well-formed source URLs, foreign keys) and a link checker verifies every link in the built site and the CSVs. Bot-protected domains are excluded in `.lycheeignore`; a weekly run also catches link rot in already-merged rows.
 
 ## Schema notes
 
@@ -38,7 +42,7 @@ Open `index.html` (or the GitHub Pages site). Use the tabs: Cases, Policies, Com
 ## Privacy and security
 
 - **Privacy.** The page sets no cookies, loads no third-party resources and collects no personal data — see [`PRIVACY.md`](PRIVACY.md), linked from the page footer on every tab. It stores two things in the visitor's own browser only, never sent anywhere: the dark/light theme choice and the Review tab tick boxes. Outbound source links load only when a visitor clicks them. Rows about biometric enforcement (for example the CNIL's €20m fine against Clearview AI for unlawful biometric processing) are public-record rows about what a regulator did; the page itself does not collect or process biometric data.
-- **Security headers.** The site is hosted on GitHub Pages, which cannot set custom HTTP response headers. The page therefore sets what it can through `<meta>` tags: Content-Security-Policy and Referrer-Policy. Three of the headers a security audit typically asks for have no `<meta>` equivalent and cannot be set while the site is hosted on GitHub Pages: X-Content-Type-Options (`nosniff`), X-Frame-Options (likewise CSP `frame-ancestors`, which browsers ignore in a `<meta>` tag) and Permissions-Policy (browsers ignore a Permissions-Policy `<meta>` tag). That is a hosting limitation, not an oversight — if the site moves to a host that allows response headers, those three should be set server-side. The exposure is limited in practice: the page loads no third-party scripts, styles or images, so there is nothing for a MIME-sniffing or framing attack to borrow, and the meta CSP still constrains scripts and styles to the site itself plus its own inline code. The CSP needs `'unsafe-inline'` because all page JavaScript and CSS is inline, so it is a partial mitigation.
+- **Security headers.** The site is hosted on GitHub Pages, which cannot set custom HTTP response headers. The page therefore sets what it can through `<meta>` tags: Content-Security-Policy and Referrer-Policy. Three of the headers a security audit typically asks for have no `<meta>` equivalent and cannot be set while the site is hosted on GitHub Pages: X-Content-Type-Options (`nosniff`), X-Frame-Options (likewise CSP `frame-ancestors`, which browsers ignore in a `<meta>` tag) and Permissions-Policy (browsers ignore a Permissions-Policy `<meta>` tag). That is a hosting limitation, not an oversight — if the site moves to a host that allows response headers, those three should be set server-side. The exposure is limited in practice: the page loads no third-party scripts, styles or images, so there is nothing for a MIME-sniffing or framing attack to borrow, and the meta CSP still constrains scripts and styles to the site itself plus its own inline code. The CSP needs `'unsafe-inline'` because all page JavaScript and CSS is inline, and `'wasm-unsafe-eval'` so the search index (Pagefind, a WebAssembly module served from the site itself) can load — it permits compiling WebAssembly from the site's own files only — so it is a partial mitigation.
 
 ## Licences and corrections
 
