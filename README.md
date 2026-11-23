@@ -2,7 +2,7 @@
 
 A public, verifiable record of AI incidents, official responses and policy instruments across the European Union and its 27 member states. Modelled on the [ASEAN AI Governance Tracker](https://suhaimizainalshah.github.io/ASEAN-AI-Governance-Tracker/) by the same author.
 
-**Status: first release. Version 0.1 · 4 incidents · 9 responses · 17 instruments · 8 backlog items · data verified 22 November 2026.** Every row has a source link to a primary or official source.
+**Status: Version 0.1 · 7 incidents · 16 responses · 29 instruments · 6 backlog items · data verified 23 November 2026.** Every row has a source link to a primary or official source.
 
 ## What it covers
 
@@ -13,7 +13,7 @@ A public, verifiable record of AI incidents, official responses and policy instr
 
 ## Coverage in this release
 
-Eight member states have a verified row (France, Germany, Denmark, Netherlands, Poland, Ireland, Spain, Italy) plus the EU-wide entry. Nineteen member states have no verified row yet — that is a finding about this first release, not about those states. A follow-up pass will target their national AI strategies and data-protection actions. Unsure items are in `data/backlog.csv`, never in the data.
+Sixteen member states have a verified row (Austria, Czechia, Denmark, Estonia, Finland, France, Germany, Greece, Ireland, Italy, Luxembourg, Netherlands, Poland, Portugal, Spain, Sweden) plus the EU-wide entry. Eleven member states have no verified row yet — Belgium, Bulgaria, Croatia, Cyprus, Hungary, Latvia, Lithuania, Malta, Romania, Slovakia and Slovenia — that is a finding about this release, not about those states. A follow-up pass will target their national AI strategies and data-protection actions. Unsure items are in `data/backlog.csv`, never in the data.
 
 ## How to use it
 
@@ -44,5 +44,5 @@ Open `index.html` (or the GitHub Pages site). Use the tabs: Cases, Policies, Com
 
 Data: CC BY 4.0 (`DATA-LICENSE.md`). Code: MIT (`LICENSE`). Corrections: suhaimizainalshah@gmail.com or GitHub issues.
 
-*Prepared by Suhaimi Zainal Shah with assistance from Muse and Claude AI (Anthropic). Version 0.1, data verified 22 November 2026.*
+*Prepared by Suhaimi Zainal Shah with assistance from Muse and Claude AI (Anthropic). Version 0.1, data verified 23 November 2026.*
 *Built and maintained by Suhaimi Zainal Shah · [AI Benar Advisory](https://suhaimizainalshah.github.io/AI-Benar-Advisory/) — independent AI compliance and governance.*
