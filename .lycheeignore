@@ -9,3 +9,7 @@ https://minefi\.hosting\.augure\.com/
 https?://([a-z0-9-]+\.)?linkedin\.com/
 https://www\.gov\.ie/
 https://www\.legifrance\.gouv\.fr/
+# julkaisut.valtioneuvosto.fi (Finnish government publications) returns 403
+# to automated checks (verified 23 Nov 2026 with curl, a browser user-agent
+# and a text fetch — all 403). The FI-P-01 row was verified via AIPolicyTracker.
+https://julkaisut\.valtioneuvosto\.fi/

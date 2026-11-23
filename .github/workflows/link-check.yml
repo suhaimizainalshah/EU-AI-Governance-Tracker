@@ -42,5 +42,4 @@ jobs:
         with:
           args: >-
             --verbose --no-progress
-            --exclude-file .lycheeignore
             ./index.html ./rows.html ./README.md ./PRIVACY.md
