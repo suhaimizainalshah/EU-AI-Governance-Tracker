@@ -121,6 +121,22 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,su
 .home-link{color:inherit;font-weight:600;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
 .foot-nav a{margin-right:1rem}
 .mark{flex:none;display:grid;place-items:center;width:44px;height:44px}
+/* Compare tab: fold-out sections */
+details.fold { margin-top:0; }
+details.fold > summary { list-style:none; cursor:pointer; display:flex; flex-wrap:wrap; align-items:baseline; gap:.15rem .6rem; color:var(--text); font-weight:inherit; border-radius:8px; }
+details.fold > summary::-webkit-details-marker { display:none; }
+details.fold > summary h2 { margin:0; display:inline; }
+details.fold > summary h2::before { content:"\25B8"; display:inline-block; width:1.1em; color:var(--accent); transition:transform .15s; }
+details.fold[open] > summary h2::before { transform:rotate(90deg); }
+details.fold[open] > summary { margin-bottom:.7rem; }
+details.fold > summary:focus-visible { outline:3px solid var(--focus); outline-offset:4px; }
+.foldhint { flex-basis:100%; padding-left:1.1em; color:var(--muted); font-size:.93rem; font-weight:400; }
+.foldbar { display:flex; gap:.5rem; justify-content:flex-end; margin:0 0 .7rem; }
+.foldbtn { border:1px solid var(--border); background:var(--surface); color:var(--text); border-radius:999px; padding:.4rem .9rem; cursor:pointer; font:inherit; font-size:.9rem; }
+.foldbtn:disabled { opacity:.5; cursor:default; }
+.foldbtn:focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
+@media (prefers-reduced-motion: reduce) { details.fold > summary h2::before { transition:none; } }
+@media print { .foldbar { display:none; } }
 </style>
 </head>
 <body id="top">
@@ -344,6 +360,50 @@ const DATA = /*__DATA__*/null;
     html += rows.length ? rows.map(policyCard).join('') : '<p class="empty">No policies match the current filters.</p>';
     $('#view').innerHTML = html;
   }
+  // Compare tab: each section folds away behind a clear heading and a one-line description, with Expand all and
+  // Collapse all. Everything starts folded (an event opens if a link names it); choices are remembered
+  // for the visit. The chart builder loads only when its section is opened. Printing opens every section.
+  var FOLD_HINTS = {
+    'Chart an event': ['cmp-chart', 'Build and download your own chart of how quickly each place acted.'],
+    'Policy stack': ['cmp-stack', 'Table: which layers of policy exist in each place.'],
+    'Speed of official response': ['cmp-speed', 'Table: days from the first public record to the first official action.'],
+    'Coverage by place': ['cmp-coverage', 'Table: cases, responses and policies recorded for each place.'],
+    'Policies by layer': ['cmp-layers', 'Table: how many policies sit in each layer.']
+  };
+  function foldSaved(id, dflt) { try { var v = sessionStorage.getItem('fold:' + id); return v === null ? dflt : v === '1'; } catch (e) { return dflt; } }
+  function foldSave(id, open) { try { sessionStorage.setItem('fold:' + id, open ? '1' : '0'); } catch (e) {} }
+  function foldCompare(root, mountChart) {
+    var blocks = Array.prototype.slice.call(root.children).filter(function (b) { return (b.classList.contains('sect') || b.matches('section.panel')) && b.querySelector(':scope > h2'); });
+    var folds = [];
+    blocks.forEach(function (b) {
+      var h = b.querySelector(':scope > h2'), title = h.textContent.trim(), spec = FOLD_HINTS[title];
+      var id = spec ? spec[0] : 'cmp-event', hint = spec ? spec[1] : 'Timeline and table of official actions in this event.';
+      var d = document.createElement('details'); d.className = (b.className + ' fold').trim(); d.id = id;
+      var s = document.createElement('summary'); s.appendChild(h);
+      var hs = document.createElement('span'); hs.className = 'foldhint'; hs.textContent = hint; s.appendChild(hs);
+      d.appendChild(s);
+      while (b.firstChild) d.appendChild(b.firstChild);
+      b.parentNode.replaceChild(d, b);
+      d.open = foldSaved(id, !spec && /[?&]event=/.test(location.hash));   // all start folded; an event opens only when a link names it
+      folds.push(d);
+    });
+    if (!folds.length) return;
+    var bar = document.createElement('div'); bar.className = 'foldbar'; bar.setAttribute('role', 'group'); bar.setAttribute('aria-label', 'Show or hide sections');
+    bar.innerHTML = '<button type="button" class="btn foldbtn" data-act="open">Expand all</button><button type="button" class="btn foldbtn" data-act="close">Collapse all</button>';
+    folds[0].parentNode.insertBefore(bar, folds[0]);
+    var btns = bar.querySelectorAll('button');
+    function sync() { var n = folds.filter(function (d) { return d.open; }).length; btns[0].disabled = n === folds.length; btns[1].disabled = n === 0; }
+    var chart = document.getElementById('cmp-chart'), mounted = false;
+    function maybeMount() { if (chart && chart.open && !mounted) { mounted = true; mountChart(); } }
+    folds.forEach(function (d) { d.addEventListener('toggle', function () { foldSave(d.id, d.open); sync(); if (d === chart) maybeMount(); }); });
+    bar.addEventListener('click', function (ev) {
+      var b = ev.target.closest('button[data-act]'); if (!b) return;
+      folds.forEach(function (d) { d.open = b.getAttribute('data-act') === 'open'; });
+    });
+    if (!chart) mountChart(); else maybeMount();
+    sync();
+  }
+  if (!window.__foldPrint) { window.__foldPrint = true; window.addEventListener('beforeprint', function () { Array.prototype.forEach.call(document.querySelectorAll('details.fold'), function (d) { d.open = true; }); }); }
   function renderCompare() {
     var cov = DATA.coverage;
     var codes = Object.keys(cov).sort(function (a, b) { return cov[b].total - cov[a].total; });
@@ -362,7 +422,7 @@ const DATA = /*__DATA__*/null;
     });
     html += '</tbody></table></div></section>';
     $('#view').innerHTML = html;
-    if (window.ChartBuilder) { var names = {}; (DATA.places || []).forEach(function (pl) { names[pl.code] = pl.name; }); ChartBuilder.mount(document.getElementById('chart-builder'), { data: DATA, names: names, tracker: 'EU AI Governance Tracker', region: 'EU' }); }
+    foldCompare($('#view'), function () { if (window.ChartBuilder) { var names = {}; (DATA.places || []).forEach(function (pl) { names[pl.code] = pl.name; }); ChartBuilder.mount(document.getElementById('chart-builder'), { data: DATA, names: names, tracker: 'EU AI Governance Tracker', region: 'EU' }); } });
   }
   function renderUpdates() {
     var html = '<section class="panel"><h2>Changelog</h2><div class="tablewrap"><table class="data"><thead><tr><th>Date</th><th>Change</th><th>Rows</th></tr></thead><tbody>';
