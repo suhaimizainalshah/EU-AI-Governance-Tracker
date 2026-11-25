@@ -138,6 +138,15 @@ details.fold > summary:focus-visible { outline:3px solid var(--focus); outline-o
 @media (prefers-reduced-motion: reduce) { details.fold > summary h2::before { transition:none; } }
 @media print { .foldbar { display:none; } }
 .previewbar { background:#7a3e00; color:#fff; padding:.55rem 1rem; text-align:center; font-weight:600; }
+/* Header search, as on the ASEAN tracker */
+.hsearch { position:relative; width:min(22rem, 100%); }
+.hsearch .pf-search { margin:0; }
+.hsearch input[type="search"] { width:100%; padding:.5rem .7rem; border:1px solid var(--border); border-radius:8px; background:var(--surface); color:var(--text); font:inherit; font-size:.95rem; }
+.hsearch input[type="search"]:focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
+.hsearch .pf-results:not(:empty) { position:absolute; right:0; top:calc(100% + .35rem); z-index:40; width:min(30rem, 92vw); max-height:60vh; overflow:auto; background:var(--surface); border:1px solid var(--border); border-radius:10px; box-shadow:var(--shadow); padding:.6rem .8rem; text-align:left; }
+.hsearch .pf-hint { margin:.25rem 0 0; font-size:.8rem; color:var(--muted); text-align:right; }
+.vh { position:absolute !important; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+@media (max-width: 700px) { .hsearch { width:100%; } .hsearch .pf-results:not(:empty) { left:0; right:auto; width:100%; } }
 </style>
 </head>
 <body id="top">
@@ -152,6 +161,7 @@ details.fold > summary:focus-visible { outline:3px solid var(--focus); outline-o
     </div>
     <div class="head-tools">
       <span><a class="home-link" href="https://suhaimizainalshah.github.io/AI-Benar-Advisory/">AI Benar Advisory</a> · <a class="home-link" href="https://suhaimizainalshah.github.io/ASEAN-AI-Governance-Tracker/">ASEAN tracker</a></span>
+      <div class="hsearch" id="pf-slot" role="search" aria-label="Search the tracker"></div>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">Dark mode</button>
     </div>
   </div>
@@ -534,10 +544,10 @@ if (DATA && DATA.meta && DATA.meta.preview) {            // a pull-request previ
    * no data leaves the device. */
   var pfLoaded = false;
   function pfSearchHTML() {
-    return '<div class="pf-search" id="pf-search" hidden><label for="pf-q">Search all entries</label>' +
-      '<input type="search" id="pf-q" placeholder="Full-text search — try “deepfake” or “Garante”" autocomplete="off" value="' + esc(state.pfq) + '">' +
+    return '<div class="pf-search" id="pf-search" hidden><label for="pf-q" class="vh">Search the tracker</label>' +
+      '<input type="search" id="pf-q" placeholder="Search the tracker" title="Full-text search. Press / to jump here." autocomplete="off" value="' + esc(state.pfq) + '">' +
       '<div class="pf-results" id="pf-results"></div>' +
-      '<p class="hint">Searches every case, response and policy. <a href="rows.html">Browse all entries as text</a>.</p></div>';
+      '<p class="pf-hint"><a href="rows.html">Browse all entries as text</a></p></div>';
   }
   function pfTarget(id) {
     if (incById[id]) return { tab: 'cases', row: id };
@@ -603,11 +613,17 @@ if (DATA && DATA.meta && DATA.meta.preview) {            // a pull-request previ
     });
   }
   function initPfSearch() {
+    var slot = document.getElementById('pf-slot');
+    if (slot && !slot.firstChild) slot.innerHTML = pfSearchHTML();      // drawn once, in the header
     var box = document.getElementById('pf-search');
     var input = document.getElementById('pf-q');
-    if (!box || !input || !pfLoaded) return;
+    if (!box || !input || !pfLoaded || input._wired) return;
+    input._wired = true;
     box.hidden = false;
     if (state.pfq) pfRunSearch();
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { input.value = ''; state.pfq = ''; var r = document.getElementById('pf-results'); if (r) r.innerHTML = ''; }
+    });
     input.addEventListener('input', function (e) {
       state.pfq = e.target.value;
       clearTimeout(input._t);
@@ -624,6 +640,15 @@ if (DATA && DATA.meta && DATA.meta.preview) {            // a pull-request previ
       navigator.clipboard.writeText(url).then(function () { done('Link copied'); }, function () { done('Copy failed'); });
     } else { done('Copy not supported'); }
   }
+  var SEARCH_INPUT = '#pf-q';
+  // Press "/" to jump to the full-text search, as on many sites; ignored while typing in a field.
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey) return;
+    var t = e.target, tag = (t && t.tagName) || '';
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(tag) || (t && t.isContentEditable)) return;
+    var box = document.querySelector(SEARCH_INPUT);
+    if (box) { e.preventDefault(); box.focus(); }
+  });
   function renderTabs() {
     $('#tabs').innerHTML = TABS.map(function (t) {
       return '<button type="button" data-tab="' + t[0] + '" class="' + (state.tab === t[0] ? 'active' : '') + '">' + t[1] + '</button>';
@@ -635,7 +660,7 @@ if (DATA && DATA.meta && DATA.meta.preview) {            // a pull-request previ
   function renderRail() {
     var rail = $('#rail');
     if (state.tab !== 'cases' && state.tab !== 'policies') {
-      rail.innerHTML = pfSearchHTML() + '<h2>About this tracker</h2><p>Every entry has a source link. Unsure items go in the backlog, never into the data.</p><p><a href="#method" id="rail-method">Read the method</a></p>';
+      rail.innerHTML = '<h2>About this tracker</h2><p>Every entry has a source link. Unsure items go in the backlog, never into the data.</p><p><a href="#method" id="rail-method">Read the method</a></p>';
       var m = document.getElementById('rail-method');
       if (m) m.addEventListener('click', function (e) { e.preventDefault(); state.tab = 'method'; writeHash(); render(); });
       return;
@@ -647,9 +672,9 @@ if (DATA && DATA.meta && DATA.meta.preview) {            // a pull-request previ
       return '<button type="button" data-code="' + esc(pl.code) + '" class="' + (state.countries.has(pl.code) ? 'on' : '') + '">' + esc(pl.code) + ' (' + n + ')</button>';
     }).join('');
     var activeFilters = state.countries.size + (state.theme ? 1 : 0) + (state.q ? 1 : 0);
-    rail.innerHTML = pfSearchHTML() + '<button type="button" class="rail-toggle" id="rail-toggle" aria-expanded="' + railOpen + '" aria-controls="rail-controls">Filters' + (activeFilters ? ' · ' + activeFilters + ' active' : '') + '</button>' +
+    rail.innerHTML = '<button type="button" class="rail-toggle" id="rail-toggle" aria-expanded="' + railOpen + '" aria-controls="rail-controls">Filters' + (activeFilters ? ' · ' + activeFilters + ' active' : '') + '</button>' +
       '<div class="rail-controls" id="rail-controls"><h2>Filters</h2>' +
-      '<label for="q">Search</label><input type="search" id="q" placeholder="Agency, keyword or ID" value="' + esc(state.q) + '">' +
+      '<label for="q">Filter this list</label><input type="search" id="q" placeholder="Agency, keyword or ID" value="' + esc(state.q) + '">' +
       '<label>Where</label><div class="country-btns">' + btns + '</div>' +
       '<p class="hint">Tap a place to narrow to it — no selection shows all 27 member states plus the EU.</p>' +
       '<label for="theme">Theme</label><select id="theme"><option value="">All themes</option>' +
