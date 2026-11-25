@@ -271,15 +271,15 @@ rows_html = f"""<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="canonical" href="{SITE_URL}/index.html">
-<title>All rows — EU AI Governance Tracker</title>
+<title>All entries — EU AI Governance Tracker</title>
 <meta name="description" content="Every incident, official response and policy instrument in the EU AI Governance Tracker, as plain text.">
 <style>body{{font:16px/1.55 system-ui,sans-serif;max-width:760px;margin:0 auto;padding:1rem;color:#1c2b26}}article{{border:1px solid #c9d4cf;border-radius:10px;padding:1rem;margin:0 0 1rem}}h2{{font-size:1.1rem;margin:.1rem 0 .4rem}}a{{color:#1b5e4f}}</style>
 </head>
 <body>
-<h1>All rows — EU AI Governance Tracker</h1>
-<p>A plain-text list of every row in the tracker, for search engines and the
+<h1>All entries — EU AI Governance Tracker</h1>
+<p>A plain-text list of every entry in the tracker, for search engines and the
 site's own full-text search. Use the <a href="index.html">tracker</a> to
-filter, compare and review rows. Data: CC BY 4.0.</p>
+filter, compare and review entries. Data: CC BY 4.0.</p>
 {''.join(articles)}
 </body>
 </html>

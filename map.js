@@ -222,10 +222,14 @@
         ', ' + c.instruments + ' instrument' + (c.instruments === 1 ? '' : 's') +
         ', ' + c.total + ' total';
       /* Tooltip alignment: edge tiles align the tooltip to their edge so it
-       * never hangs off the side of the screen on a phone. */
-      var tipCls = isRegional ? ' tip-left'
+       * never hangs off the side of the screen on a phone. Top-row and
+       * regional tiles show it below instead of above, so it never hangs
+       * off the top of the viewport when the map is at the top of the
+       * screen. */
+      var tipCls = isRegional ? ' tip-left tip-below'
         : (place.col <= 1 ? ' tip-left'
-          : (place.col >= layout.cols - 2 ? ' tip-right' : ''));
+          : (place.col >= layout.cols - 2 ? ' tip-right' : '')) +
+          (place.row === 0 ? ' tip-below' : '');
       var cls = 'tile bin-' + bin + (isRegional ? ' regional' : '') + tipCls +
         (selected === code ? ' selected' : '');
       var pos = isRegional ? '' : ' style="grid-row:' + (place.row + 1) + ';grid-column:' + (place.col + 1) + '"';
@@ -245,7 +249,7 @@
     html += '<div class="map-head"><div class="map-total"><strong>' + esc(layout.label) +
       ' total: ' + totals.incidents + ' incidents · ' + totals.responses +
       ' responses · ' + totals.instruments + ' instruments · ' + totals.total +
-      ' rows</strong></div>';
+      ' records</strong></div>';
     html += '<div class="map-metrics" role="group" aria-label="Colour the map by">';
     METRICS.forEach(function (m) {
       html += '<button type="button" class="metric' + (metric === m.key ? ' active' : '') +

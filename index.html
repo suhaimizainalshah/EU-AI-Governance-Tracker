@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none';">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>EU AI Governance Tracker</title>
-<meta name="description" content="A public, verifiable record of AI incidents, official responses and policy instruments across the European Union and its 27 member states. Every row has a source link.">
+<meta name="description" content="A public, verifiable record of AI incidents, official responses and policy instruments across the European Union and its 27 member states. Every entry has a source link.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%23003399'/%3E%3Ccircle cx='8' cy='8' r='4.5' fill='none' stroke='%23ffcc00' stroke-width='1.2'/%3E%3C/svg%3E">
 <link rel="alternate" type="application/rss+xml" title="EU AI Governance Tracker — updates" href="feed.xml">
 <link rel="alternate" type="application/feed+json" title="EU AI Governance Tracker — updates" href="feed.json">
@@ -19,12 +19,15 @@ body { margin:0; background:var(--bg); color:var(--text); font:16px/1.55 system-
 a { color:var(--accent); }
 .wrap { max-width:1100px; margin:0 auto; padding:0 1rem; }
 header.site { background:var(--surface); border-bottom:1px solid var(--border); }
-.head-row { display:flex; gap:1rem; align-items:center; padding:1rem 0; flex-wrap:wrap; }
+.head-row { display:flex; gap:1rem; align-items:center; padding-top:1rem; padding-bottom:1rem; flex-wrap:wrap; } /* top and bottom only: the .wrap keeps its side margins */
+.head-text { flex:1 1 420px; min-width:0; }
+.head-tools { display:flex; flex-direction:column; align-items:flex-end; gap:.5rem; margin-left:auto; }
+@media (max-width:820px){ .head-tools { flex-direction:row; justify-content:space-between; align-items:center; flex-basis:100%; margin-left:0; } }
 .head-row h1 { font-size:1.5rem; margin:0; line-height:1.2; }
 .head-row .sub { color:var(--muted); margin:.2rem 0 0; max-width:640px; }
 .counts { font-weight:600; }
 .meta-line { color:var(--muted); font-size:.9rem; }
-button.theme-toggle { margin-left:auto; border:1px solid var(--border); background:var(--surface); color:var(--text); border-radius:999px; padding:.35rem .8rem; cursor:pointer; }
+button.theme-toggle { border:1px solid var(--border); background:var(--surface); color:var(--text); border-radius:999px; padding:.35rem .8rem; cursor:pointer; }
 nav.tabs { display:flex; gap:.35rem; flex-wrap:wrap; padding:.6rem 0; }
 nav.tabs button { border:1px solid var(--border); background:var(--surface); color:var(--text); border-radius:999px; padding:.4rem .85rem; cursor:pointer; font-size:.92rem; }
 nav.tabs button.active { background:var(--accent); border-color:var(--accent); color:#fff; }
@@ -125,13 +128,15 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,su
 <header class="site">
   <div class="wrap head-row">
     <span class="mark" aria-hidden="true"><svg viewBox="0 0 48 48" width="44" height="44" aria-hidden="true" focusable="false"><path d="M11 36V24M19 36V14M27 36V26M35 36V19" fill="none" stroke="currentColor" stroke-width="4.2" stroke-linecap="round"/><circle cx="35" cy="10.5" r="3.6" fill="currentColor"/></svg></span>
-    <div>
+    <div class="head-text">
       <h1>EU AI Governance Tracker</h1>
-      <p class="sub">A public, verifiable record of AI incidents, official responses and policy instruments across the European Union and its 27 member states. Every row has a source link.</p>
+      <p class="sub">A public, verifiable record of AI incidents, official responses and policy instruments across the European Union and its 27 member states. Every entry has a source link.</p>
       <p class="meta-line"><span class="counts" id="head-counts"></span> · <span id="head-verified"></span></p>
     </div>
-    <a class="home-link" href="https://suhaimizainalshah.github.io/AI-Benar-Advisory/">AI Benar Advisory</a>
+    <div class="head-tools">
+      <a class="home-link" href="https://suhaimizainalshah.github.io/AI-Benar-Advisory/">AI Benar Advisory</a>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">Dark mode</button>
+    </div>
   </div>
   <div class="wrap">
     <nav class="tabs" aria-label="Tracker sections" id="tabs"></nav>
@@ -305,7 +310,7 @@ const DATA = {"meta": {"version": "0.1", "verified": "2026-11-23", "built": "202
     if (i.more_sources) html += '<p>More: ' + sourceLink(i.more_sources) + '</p>';
     if (i.notes) html += '<p>Notes: ' + esc(i.notes) + '</p>';
     html += '<p>Confidence: ' + esc(i.confidence) + ' · Verified ' + esc(i.verified_on) + ' · ID ' + esc(i.id) + '</p></details>';
-    html += '<button type="button" class="copy-row" data-copy-row="' + esc(i.id) + '" data-copy-tab="cases">Copy link to this row</button></article>';
+    html += '<button type="button" class="copy-row" data-copy-row="' + esc(i.id) + '" data-copy-tab="cases">Copy link to this entry</button></article>';
     return html;
   }
   function policyCard(p) {
@@ -321,19 +326,19 @@ const DATA = {"meta": {"version": "0.1", "verified": "2026-11-23", "built": "202
     html += '<p>Issuer: ' + esc(p.issuer) + ' · Source: ' + sourceLink(p.source_url, p.source_title) + '</p>';
     if (p.notes) html += '<p>Notes: ' + esc(p.notes) + '</p>';
     html += '<p>Confidence: ' + esc(p.confidence) + ' · Verified ' + esc(p.verified_on) + ' · ID ' + esc(p.id) + '</p>';
-    html += '<button type="button" class="copy-row" data-copy-row="' + esc(p.id) + '" data-copy-tab="policies">Copy link to this row</button></article>';
+    html += '<button type="button" class="copy-row" data-copy-row="' + esc(p.id) + '" data-copy-tab="policies">Copy link to this entry</button></article>';
     return html;
   }
   function renderCases() {
     var rows = filteredIncidents();
-    var html = '<section class="map-box" aria-label="Where the rows are"><h2>Where the rows are</h2><div id="map-cases"></div></section>';
+    var html = '<section class="map-box" aria-label="Coverage by Member State"><h2>Coverage by Member State</h2><div id="map-cases"></div></section>';
     html += glanceHTML() + chipsHTML();
     html += rows.length ? rows.map(caseCard).join('') : '<p class="empty">No cases match the current filters.</p>';
     $('#view').innerHTML = html;
   }
   function renderPolicies() {
     var rows = filteredInstruments();
-    var html = '<section class="map-box" aria-label="Where the rows are"><h2>Where the rows are</h2><div id="map-policies"></div></section>';
+    var html = '<section class="map-box" aria-label="Coverage by Member State"><h2>Coverage by Member State</h2><div id="map-policies"></div></section>';
     html += glanceHTML() + chipsHTML();
     html += rows.length ? rows.map(policyCard).join('') : '<p class="empty">No policies match the current filters.</p>';
     $('#view').innerHTML = html;
@@ -346,7 +351,7 @@ const DATA = {"meta": {"version": "0.1", "verified": "2026-11-23", "built": "202
       var v = cov[c];
       html += '<tr><td>' + esc(v.name) + ' (' + esc(c) + ')</td><td>' + v.incidents + '</td><td>' + v.incidents_with_response + '</td><td>' + v.responses + '</td><td>' + v.binding + '</td><td>' + v.instruments + '</td><td>' + v.total + '</td></tr>';
     });
-    html += '</tbody></table></div><p class="hint">Zero is a finding, not a gap in the sweep: a place with no verified row simply has no verified row yet. Unsure items are in the backlog, never in the data.</p></section>';
+    html += '</tbody></table></div><p class="hint">Zero is a finding, not a gap in the sweep: a place with no verified entry simply has none yet. Unsure items are in the backlog, never in the data.</p></section>';
     var byLayer = {};
     DATA.instruments.forEach(function (p) { byLayer[p.layer] = (byLayer[p.layer] || 0) + 1; });
     html += '<section class="panel"><h2>Policies by layer</h2><div class="tablewrap"><table class="data"><thead><tr><th>Layer</th><th>Policies</th></tr></thead><tbody>';
@@ -393,7 +398,7 @@ const DATA = {"meta": {"version": "0.1", "verified": "2026-11-23", "built": "202
     [newInc, newRes, newPol].forEach(function (rows) {
       rows.forEach(function (r) { if (ticks[r.id]) checked += 1; });
     });
-    var html = '<section class="panel"><h2>Review — rows verified ' + esc(v) + '</h2>';
+    var html = '<section class="panel"><h2>Review — entries verified ' + esc(v) + '</h2>';
     html += '<p>Check each new row against its source before the update is merged. Ticks are stored in this browser only.</p>';
     html += '<p><strong>Checked ' + checked + ' of ' + all + ' new rows.</strong> ';
     html += '<button type="button" id="tick-all">Tick all</button> <button type="button" id="tick-clear">Clear ticks</button></p>';
@@ -423,9 +428,9 @@ const DATA = {"meta": {"version": "0.1", "verified": "2026-11-23", "built": "202
       '<p><strong>Dates.</strong> An incident date is the earliest public record, with honest precision (day, month or year) and onset certainty (documented, approximate or unknown). A response dated before its incident is a build error.</p>' +
       '<p><strong>Confidence.</strong> <em>High</em> means an official or primary source, or several agreeing sources. <em>Medium</em> means one secondary source or disagreement, explained in the notes.</p>' +
       '<p><strong>Themes.</strong> deepfake-fraud, sexual-deepfakes, political-deepfakes, election-integrity, online-safety, general-ai, data-protection.</p>' +
-      '<p><strong>Scope.</strong> The 27 EU member states plus EU-wide instruments (the EU AI Act is EU-wide, not one member state). Country codes are ISO 3166-1 alpha-2 (GR for Greece). Nineteen member states have no verified row in this first release — a follow-up pass will target their national AI strategies and data-protection actions.</p>' +
+      '<p><strong>Scope.</strong> The 27 EU member states plus EU-wide instruments (the EU AI Act is EU-wide, not one member state). Country codes are ISO 3166-1 alpha-2 (GR for Greece). Nineteen member states have no verified entry in this first release — a follow-up pass will target their national AI strategies and data-protection actions.</p>' +
       '<p><strong>Workflow.</strong> Edit only <code>data/*.csv</code>; every row needs a source URL; run <code>python3 build.py</code> (the build refuses bad data); log changes in <code>data/changelog.csv</code>. Updates are proposed as a pull request and reviewed on the Review tab; nothing is pushed straight to main. Pull requests are also checked automatically: the CSVs are validated against <code>datapackage.json</code> and every link in the built site is checked.</p>' +
-      '<p><strong>Reuse.</strong> The full dataset is published as <a href="data.json">data.json</a>, with one JSON file per row type under <code>data/</code> (for example <a href="data/incidents.json">data/incidents.json</a>), and filtered rows can be downloaded as CSV from the Cases and Policies tabs. Every row has a stable link — use the “Copy link to this row” button on any card — and updates are available as <a href="feed.xml">RSS</a> and <a href="feed.json">JSON Feed</a>. Full-text search covers every row; the index is built after <code>python3 build.py</code> with <code>npx -y pagefind@1.3.0 --site .</code> and served as static files from the site itself.</p>' +
+      '<p><strong>Reuse.</strong> The full dataset is published as <a href="data.json">data.json</a>, with one JSON file per row type under <code>data/</code> (for example <a href="data/incidents.json">data/incidents.json</a>), and filtered rows can be downloaded as CSV from the Cases and Policies tabs. Every row has a stable link — use the “Copy link to this entry” button on any card — and updates are available as <a href="feed.xml">RSS</a> and <a href="feed.json">JSON Feed</a>. Full-text search covers every row; the index is built after <code>python3 build.py</code> with <code>npx -y pagefind@1.3.0 --site .</code> and served as static files from the site itself.</p>' +
       '<p><strong>Related datasets.</strong> For the wider picture, the <a href="https://aiindex.stanford.edu/">Stanford HAI AI Index</a> publishes open data (spreadsheets and CSV) on AI research, models, investment and policy, and <a href="https://epoch.ai/data/notable_ai_models.csv">Epoch AI\'s notable-models dataset</a> (CSV, updated daily) tracks the models behind the headlines. Neither is a source for this tracker\'s rows, which are verified one by one; they are useful context.</p>' +
       '<p><strong>Licences.</strong> Data: CC BY 4.0. Code: MIT. Corrections: suhaimizainalshah@gmail.com.</p>' +
       '<p><strong>Privacy.</strong> The page sets no cookies, loads no third-party resources and collects no personal data — see the <a href="https://github.com/suhaimizainalshah/EU-AI-Governance-Tracker/blob/main/PRIVACY.md">privacy notice</a>. Rows about biometric enforcement (for example the CNIL fine against Clearview AI) are public-record rows about what a regulator did; the page itself does not collect or process biometric data.</p>' +
@@ -443,10 +448,10 @@ const DATA = {"meta": {"version": "0.1", "verified": "2026-11-23", "built": "202
    * no data leaves the device. */
   var pfLoaded = false;
   function pfSearchHTML() {
-    return '<div class="pf-search" id="pf-search" hidden><label for="pf-q">Search all rows</label>' +
+    return '<div class="pf-search" id="pf-search" hidden><label for="pf-q">Search all entries</label>' +
       '<input type="search" id="pf-q" placeholder="Full-text search — try “deepfake” or “Garante”" autocomplete="off" value="' + esc(state.pfq) + '">' +
       '<div class="pf-results" id="pf-results"></div>' +
-      '<p class="hint">Searches every case, response and policy. <a href="rows.html">Browse all rows as text</a>.</p></div>';
+      '<p class="hint">Searches every case, response and policy. <a href="rows.html">Browse all entries as text</a>.</p></div>';
   }
   function pfTarget(id) {
     if (incById[id]) return { tab: 'cases', row: id };
@@ -528,7 +533,7 @@ const DATA = {"meta": {"version": "0.1", "verified": "2026-11-23", "built": "202
     var tab = btn.getAttribute('data-copy-tab') || 'cases';
     var url = location.origin + location.pathname + '#tab=' + tab + '&row=' + id;
     state.row = id; writeHash();
-    function done(msg) { btn.textContent = msg; setTimeout(function () { btn.textContent = 'Copy link to this row'; }, 1500); }
+    function done(msg) { btn.textContent = msg; setTimeout(function () { btn.textContent = 'Copy link to this entry'; }, 1500); }
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(url).then(function () { done('Link copied'); }, function () { done('Copy failed'); });
     } else { done('Copy not supported'); }
@@ -544,7 +549,7 @@ const DATA = {"meta": {"version": "0.1", "verified": "2026-11-23", "built": "202
   function renderRail() {
     var rail = $('#rail');
     if (state.tab !== 'cases' && state.tab !== 'policies') {
-      rail.innerHTML = pfSearchHTML() + '<h2>About this tracker</h2><p>Every row has a source link. Unsure items go in the backlog, never into the data.</p><p><a href="#method" id="rail-method">Read the method</a></p>';
+      rail.innerHTML = pfSearchHTML() + '<h2>About this tracker</h2><p>Every entry has a source link. Unsure items go in the backlog, never into the data.</p><p><a href="#method" id="rail-method">Read the method</a></p>';
       var m = document.getElementById('rail-method');
       if (m) m.addEventListener('click', function (e) { e.preventDefault(); state.tab = 'method'; writeHash(); render(); });
       return;
@@ -664,7 +669,8 @@ const DATA = {"meta": {"version": "0.1", "verified": "2026-11-23", "built": "202
   document.getElementById('credit').textContent = DATA.meta.credit;
   var savedTheme = null;
   try { savedTheme = localStorage.getItem('euat_theme'); } catch (e) { /* private mode */ }
-  if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+  // a visitor's own choice wins; otherwise follow the system setting, as the ASEAN tracker does
+  document.documentElement.setAttribute('data-theme', savedTheme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
   function updateThemeBtn() {
     var dark = document.documentElement.getAttribute('data-theme') === 'dark';
     var b = document.getElementById('theme-toggle');
