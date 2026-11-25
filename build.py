@@ -208,7 +208,11 @@ data = {
 with open(os.path.join(ROOT, "template.html"), encoding="utf-8") as f:
     tpl = f.read()
 assert "/*__DATA__*/null" in tpl, "template placeholder missing"
-out = tpl.replace("/*__DATA__*/null", json.dumps(data, ensure_ascii=False), 1)
+PREVIEW = "--preview" in sys.argv or os.environ.get("PREVIEW") == "1"     # pull-request preview: shows the Review tab and a banner
+page = {**data, "meta": {**data["meta"], "preview": True}} if PREVIEW else data
+out = tpl.replace("/*__DATA__*/null", json.dumps(page, ensure_ascii=False), 1)
+if PREVIEW:
+    print("PREVIEW build: the Review tab and a preview banner are shown. Do not commit this index.html.")
 with open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8") as f:
     f.write(out)
 with open(os.path.join(ROOT, "tracker-data.json"), "w", encoding="utf-8") as f:

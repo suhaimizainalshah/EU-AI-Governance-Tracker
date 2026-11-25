@@ -137,6 +137,7 @@ details.fold > summary:focus-visible { outline:3px solid var(--focus); outline-o
 .foldbtn:focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
 @media (prefers-reduced-motion: reduce) { details.fold > summary h2::before { transition:none; } }
 @media print { .foldbar { display:none; } }
+.previewbar { background:#7a3e00; color:#fff; padding:.55rem 1rem; text-align:center; font-weight:600; }
 </style>
 </head>
 <body id="top">
@@ -185,11 +186,17 @@ document.addEventListener("click",function(e){var a=e.target.closest&&e.target.c
 <script src="chart-builder.js"></script>
 <script>
 const DATA = /*__DATA__*/null;
+if (DATA && DATA.meta && DATA.meta.preview) {            // a pull-request preview, never the public site
+  var addPreviewBar = function () { document.body.insertAdjacentHTML('afterbegin', '<div class="previewbar" role="note">Preview of a pull request. Nothing here is on the public site until the pull request is merged.</div>'); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', addPreviewBar); else addPreviewBar();
+}
+
 (function () {
   'use strict';
   var $ = function (s) { return document.querySelector(s); };
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
   var TABS = [['cases', 'Cases'], ['policies', 'Policies'], ['compare', 'Compare'], ['updates', 'Updates'], ['review', 'Review'], ['method', 'Method']];
+  if (!(DATA.meta && DATA.meta.preview)) TABS = TABS.filter(function (t) { return t[0] !== 'review'; });   // Review shows only in pull-request previews
   var THEMES = ['deepfake-fraud', 'sexual-deepfakes', 'political-deepfakes', 'election-integrity', 'online-safety', 'general-ai', 'data-protection'];
   var PLACE_NAMES = {};
   DATA.places.forEach(function (p) { PLACE_NAMES[p.code] = p.name; });
@@ -424,8 +431,24 @@ const DATA = /*__DATA__*/null;
     $('#view').innerHTML = html;
     foldCompare($('#view'), function () { if (window.ChartBuilder) { var names = {}; (DATA.places || []).forEach(function (pl) { names[pl.code] = pl.name; }); ChartBuilder.mount(document.getElementById('chart-builder'), { data: DATA, names: names, tracker: 'EU AI Governance Tracker', region: 'EU' }); } });
   }
+  // What's new in this update: the rows verified on the latest date, read-only, each with its source.
+  function whatsNewHTML() {
+    var v = DATA.meta.verified, names = {}, rows = [];
+    (DATA.places || []).forEach(function (pl) { names[pl.code] = pl.name; });
+    DATA.incidents.forEach(function (i) { if (i.verified_on === v) rows.push(['Case', i.id, i.title, names[i.country] || i.country, i.date, i.source_url, i.source_title]); });
+    DATA.responses.forEach(function (r) { if (r.verified_on === v) rows.push(['Official response', r.id, (r.actor || '') + ': ' + (r.summary || ''), 'Case ' + r.incident_id, r.date, r.source_url, r.source_title]); });
+    DATA.instruments.forEach(function (p) { if (p.verified_on === v) rows.push(['Policy', p.id, p.short_title || p.title, names[p.jurisdiction] || p.jurisdiction, p.date, p.source_url, p.source_title]); });
+    if (!rows.length) return '';
+    var h = '<section class="panel"><h2>What\u2019s new in this update</h2><p>' + rows.length + ' rows were added or re-checked in the update verified ' + esc(v) +
+      '. Each one links to its source.</p><div class="tablewrap"><table class="data"><thead><tr><th>Kind</th><th>ID</th><th>What</th><th>Where</th><th>Date</th><th>Source</th></tr></thead><tbody>';
+    rows.forEach(function (r) {
+      var what = String(r[2] || ''); if (what.length > 160) what = what.slice(0, 159) + '\u2026';
+      h += '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td><td>' + esc(what) + '</td><td>' + esc(r[3] || '') + '</td><td>' + esc(r[4] || '') + '</td><td>' + (r[5] ? sourceLink(r[5], r[6]) : '') + '</td></tr>';
+    });
+    return h + '</tbody></table></div></section>';
+  }
   function renderUpdates() {
-    var html = '<section class="panel"><h2>Changelog</h2><div class="tablewrap"><table class="data"><thead><tr><th>Date</th><th>Change</th><th>Rows</th></tr></thead><tbody>';
+    var html = whatsNewHTML() + '<section class="panel"><h2>Changelog</h2><div class="tablewrap"><table class="data"><thead><tr><th>Date</th><th>Change</th><th>Rows</th></tr></thead><tbody>';
     DATA.changelog.forEach(function (c) {
       html += '<tr><td>' + esc(c.date) + '</td><td>' + esc(c.change) + '</td><td>' + esc(c.rows) + '</td></tr>';
     });
@@ -462,7 +485,7 @@ const DATA = /*__DATA__*/null;
       rows.forEach(function (r) { if (ticks[r.id]) checked += 1; });
     });
     var html = '<section class="panel"><h2>Review — entries verified ' + esc(v) + '</h2>';
-    html += '<p>Check each new row against its source before the update is merged. Ticks are stored in this browser only.</p>';
+    html += '<p>Check each new row against its source before the update is merged. Ticks here are stored in this browser only; the official record is the checklist comment on the pull request.</p>';
     html += '<p><strong>Checked ' + checked + ' of ' + all + ' new rows.</strong> ';
     html += '<button type="button" id="tick-all">Tick all</button> <button type="button" id="tick-clear">Clear ticks</button></p>';
     html += reviewTable('New cases', newInc.map(function (i) { return { id: i.id, what: i.title, url: i.source_url, source: i.source_title, confidence: i.confidence }; }));
