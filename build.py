@@ -209,7 +209,12 @@ with open(os.path.join(ROOT, "template.html"), encoding="utf-8") as f:
     tpl = f.read()
 assert "/*__DATA__*/null" in tpl, "template placeholder missing"
 PREVIEW = "--preview" in sys.argv or os.environ.get("PREVIEW") == "1"     # pull-request preview: shows the Review tab and a banner
-page = {**data, "meta": {**data["meta"], "preview": True}} if PREVIEW else data
+# Visitor counting with GoatCounter (no cookies), on the same account as the ASEAN tracker. Set to "" to switch it off.
+GOATCOUNTER_CODE = (os.environ.get("GOATCOUNTER_CODE") or "suhaimizs").strip().lower()
+if GOATCOUNTER_CODE in {"off", "none"}: GOATCOUNTER_CODE = ""
+meta = {**data["meta"], "analytics": {"goatcounter": GOATCOUNTER_CODE}}
+page = {**data, "meta": {**meta, "preview": True} if PREVIEW else meta}
+print("Visitor counting:", f"ON ({GOATCOUNTER_CODE}.goatcounter.com)" if GOATCOUNTER_CODE else "OFF")
 out = tpl.replace("/*__DATA__*/null", json.dumps(page, ensure_ascii=False), 1)
 if PREVIEW:
     print("PREVIEW build: the Review tab and a preview banner are shown. Do not commit this index.html.")

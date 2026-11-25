@@ -1,10 +1,18 @@
 # Privacy
 
-This tracker page sets no cookies and collects no personal data. There is no visitor counting in version 0.1 — no analytics, no tracking pixel, no fingerprinting. If visitor counting is added later, this file will say so, and it will be aggregate-only with no individual tracking.
+This tracker page sets no cookies and collects no personal data of its own. Since 25 November 2026 it counts visits with **GoatCounter**, a small, privacy-focused, open-source service, on the same account as the ASEAN AI Governance Tracker. Counting is aggregate only: there is no individual tracking, no tracking pixel and no fingerprinting.
+
+## Visitor counting
+
+- **What is counted:** page loads, which tab was opened, the site that sent the visitor, the visitor's country, and broad browser, system and screen-size details.
+- **How:** the page loads GoatCounter's script from `gc.zgo.at` and sends each count to `suhaimizs.goatcounter.com`. GoatCounter sets no cookies and, according to its privacy policy, does not store visitors' IP addresses.
+- **What is shown publicly:** the Visitors tab shows live totals (visits and tabs opened, for the last 30 days and all time), fetched from GoatCounter's public counter. No individual is ever shown.
+- **Opting out:** if your browser sends Do Not Track or Global Privacy Control, the page does not load GoatCounter, sends nothing, and does not fetch the live totals. Nothing is counted when the page is opened from a local file.
+- **Your own visits:** the owner excludes their own visits by opening the page with `#toggle-goatcounter` once on each browser.
 
 ## What the page loads
 
-The page loads no third-party resources: its scripts, styles and data all come from the tracker site itself. The only third parties involved are the source sites linked from each row (the EU Official Journal, the European Commission, national regulators and similar), and those load only if a visitor clicks a source link. Nothing is fetched from anywhere else when the page opens.
+Apart from GoatCounter's counting script and its counting endpoints, the page's scripts, styles and data all come from the tracker site itself. The only other third parties involved are the source sites linked from each row (the EU Official Journal, the European Commission, national regulators and similar), and those load only if a visitor follows a link.
 
 ## What the page stores in your browser
 
