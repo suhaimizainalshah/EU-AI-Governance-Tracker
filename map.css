@@ -62,3 +62,26 @@ html[data-theme="dark"] .tile:hover, html[data-theme="dark"] .tile:focus-visible
 
 /* Empty tiles: full-strength name text so it meets 4.5:1 contrast */
 .tile.bin-0 .tile-name { opacity: 1; }
+
+/* ---------- chart builder (chart-builder.js), shared by both trackers ----------
+ * Uses each tracker's own colours: ASEAN names them --line/--ink, the EU --border/--text. */
+.cb{display:grid;gap:.9rem}
+.cb [hidden]{display:none!important} /* the layout rules below must not override hiding */
+.cb-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.7rem 1rem;align-items:start}
+.cb-f{display:grid;gap:.3rem;font-size:.88rem;font-weight:600;margin:0;padding:0;border:0;min-width:0}
+.cb-f legend{font-weight:600;padding:0;margin-bottom:.3rem}
+.cb-wide{grid-column:1/-1}
+.cb-f select,.cb-f input[type=text]{font:inherit;font-weight:400;padding:.4rem .55rem;border:1px solid var(--line,var(--border));border-radius:6px;background:var(--surface);color:var(--ink,var(--text));width:100%;min-width:0}
+.cb-r,.cb-chk{display:inline-flex;gap:.35rem;align-items:center;font-weight:400;margin-right:.8rem;cursor:pointer}
+.cb-places{display:flex;flex-wrap:wrap;gap:.2rem .4rem}
+.cb-figure{background:#fff;border:1px solid var(--line,var(--border));border-radius:8px;overflow:hidden}
+.cb-figure svg{display:block;width:100%;height:auto}
+.cb-actions{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.cb-btn{font:inherit;font-size:.88rem;font-weight:600;border:1px solid var(--line,var(--border));background:var(--surface);color:var(--ink,var(--text));border-radius:6px;padding:.4rem .8rem;cursor:pointer}
+.cb-btn:hover{border-color:currentColor}
+.cb-msg{font-size:.85rem;color:var(--muted)}
+.cb-empty{color:var(--muted);margin:.4rem 0}
+.cb-tablewrap{overflow-x:auto}
+.cb-tbl{border-collapse:collapse;width:100%;font-size:.88rem;margin-top:.5rem}
+.cb-tbl th,.cb-tbl td{text-align:left;padding:.4rem .5rem;border-bottom:1px solid var(--line,var(--border));vertical-align:top}
+.cb-r input,.cb-chk input{accent-color:#0d5e57}
