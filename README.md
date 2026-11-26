@@ -60,3 +60,14 @@ Data: CC BY 4.0 (`DATA-LICENSE.md`). Code: MIT (`LICENSE`). Corrections: suhaimi
 
 *Prepared by Suhaimi Zainal Shah with assistance from Muse and Claude AI (Anthropic). Version 0.1, data verified 23 November 2026.*
 *Built and maintained by Suhaimi Zainal Shah · [AI Benar Advisory](https://suhaimizainalshah.github.io/AI-Benar-Advisory/) — independent AI compliance and governance.*
+
+## Sources saved to the Internet Archive
+Every week (and whenever `data/*.csv` changes on main), `.github/workflows/archive-sources.yml` runs `scripts/archive_sources.py`.
+For each source link without an archived copy, it asks the Wayback Machine whether a copy exists, and if not, asks Save Page Now
+to make one. The copies are listed in `data/archive.json`, and the page shows an **archived copy** link beside each source that has one.
+
+- It works without an account, slowly. For more reliable saving, create a free archive.org account, get its keys at
+  https://archive.org/account/s3.php, and add them under **Settings → Secrets and variables → Actions** as `IA_ACCESS_KEY` and `IA_SECRET_KEY`.
+- It is gentle: at most 150 checks and 25 new copies a run (change the number when running it by hand), with pauses, and it stops
+  for the run if the archive asks it to slow down. Failed links are retried a week later, up to three times.
+- To run it now: **Actions → Archive sources → Run workflow**.

@@ -2103,6 +2103,21 @@
    "date": "2026-11-23",
    "change": "Template, 2026-11-23: the map now also appears on the Policies tab (clicking a tile filters the policies list). The EU flag is no longer used; the non-affiliation statement is kept. Added a Back to top button and footer links, and a header link to AI Benar Advisory. Map tiles: accessible names now start with their visible text (code, name, number) for voice-control users, hover tooltips are hidden from screen readers (the label carries the same details), and empty-tile names meet 4.5:1 contrast.",
    "rows": ""
+  },
+  {
+   "date": "2026-11-26",
+   "change": "Version 0.3: short forms, organisations and country codes are explained where they first appear (hover, or tap on a phone), with 78 entries including national authorities, gazettes and laws in French, German, Italian, Spanish, Portuguese, Dutch and Swedish. IT means Italy, except on the Compute tab, where it means information technology. The Method tab lists them all. No data changed.",
+   "rows": "all"
+  },
+  {
+   "date": "2026-11-26",
+   "change": "The tracker's name and logo now return to its starting view, and the AI Benar home link leads to the AI Benar home page. Restored two automatic checks that were missing from the repository: the review checklist on each pull request, and the check that the page matches its template.",
+   "rows": "method"
+  },
+  {
+   "date": "2026-11-27",
+   "change": "Sources are now saved to the Internet Archive each week by an automatic workflow, and each source with a saved copy shows an archived copy link. The footer now uses the ASEAN tracker's new name. No data changed.",
+   "rows": "all"
   }
  ],
  "events": [
