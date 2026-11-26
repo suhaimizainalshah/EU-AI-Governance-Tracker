@@ -1,0 +1,36 @@
+# Checks, on every pull request, that index.html matches template.html and the data.
+# It rebuilds the page and compares it with the one in the pull request, ignoring
+# only the build date. This catches the easy mistake of updating one without the other.
+name: Page matches its template
+
+on:
+  pull_request:
+    paths:
+      - "template.html"
+      - "index.html"
+      - "build.py"
+      - "data/**"
+  workflow_dispatch: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Keep the page from the pull request
+        run: cp index.html /tmp/committed-index.html
+      - name: Rebuild the page from the template and data
+        run: python3 build.py
+      - name: Compare them, ignoring the build date
+        run: |
+          python3 - <<'PY'
+          import re, sys
+          norm = lambda p: re.sub(r'"built": "\d{4}-\d{2}-\d{2}"', '"built": ""', open(p, encoding="utf-8").read())
+          if norm("/tmp/committed-index.html") != norm("index.html"):
+              print("::error::index.html does not match template.html and the data. Run python3 build.py and include the rebuilt index.html in this pull request.")
+              sys.exit(1)
+          print("index.html matches template.html and the data.")
+          PY
