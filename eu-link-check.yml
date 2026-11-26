@@ -1,0 +1,69 @@
+# Check every link in the built site.
+#
+# Runs on pull requests (so a broken source link fails the PR) and weekly
+# (so link rot in already-merged rows is caught too). The build runs first
+# so index.html and rows.html are current. The CSVs are NOT passed to
+# lychee directly: its raw-text extraction mangles comma-separated CSV
+# fields into false 404s (verified 23 Nov 2026 — every flagged CSV link
+# returned 200 when checked cleanly). The same source URLs are covered as
+# real links in rows.html, which the build regenerates from the CSVs.
+#
+# Bot-protected domains are excluded in .lycheeignore — they return 403/999
+# to automated checkers even though the links work in a browser.
+name: Link check
+
+on:
+  pull_request:
+    paths:
+      - '**.html'
+      - '**.md'
+      - 'data/**'
+      - 'build.py'
+      - 'template.html'
+      - '.lycheeignore'
+      - '.github/workflows/link-check.yml'
+  schedule:
+    # Mondays 06:00 UTC — a weekly sweep for link rot.
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build the site
+        run: python3 build.py
+      - name: Lay out the site as it is served, at aibenar.dev/<repository>/
+        # The pages link to sister sites with short addresses such as / and /EU-AI-Governance-Tracker/.
+        # Checking local files, the link checker needs a root folder shaped like the live site to resolve them.
+        # This repository goes in its real folder; the sister sites get placeholders, since each is checked
+        # by its own repository's link check.
+        run: |
+          S="$RUNNER_TEMP/site"; mkdir -p "$S"
+          cp -r "$GITHUB_WORKSPACE" "$S/${GITHUB_REPOSITORY#*/}"
+          for p in "" AI-Benar-Advisory ASEAN-AI-Governance-Tracker EU-AI-Governance-Tracker little-light-lit if-leaves-weave brain-boost-timer ai-asli/classroom; do
+            mkdir -p "$S/$p"; [ -f "$S/$p/index.html" ] || echo '<!doctype html><title>Sister site, checked by its own repository</title>' > "$S/$p/index.html"
+          done
+          echo "SITE_ROOT=$S" >> "$GITHUB_ENV"
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # Retry transient failures: the EC's Interoperable Europe portal
+          # (EE-P-01's source) intermittently returns 429/503 to automated
+          # requests — seen as a 429 during the 23 Nov 2026 PR #5 checks and
+          # as three consecutive 503s the same day, while the document itself
+          # stays live and readable in a browser. Lychee's defaults (3
+          # retries, 1s apart) are too fast to ride out a ~30s rate-limit
+          # episode, so retry more times with a longer wait. This keeps the
+          # check strict — a genuinely dead link still fails — it only makes
+          # it resilient to host-side rate-limiting. If this URL ever starts
+          # failing persistently, exclude it in .lycheeignore instead.
+          args: >-
+            --verbose --no-progress
+            --max-retries 5 --retry-wait-time 10
+            --root-dir ${{ env.SITE_ROOT }}
+            ./index.html ./rows.html ./README.md ./PRIVACY.md
