@@ -37,6 +37,18 @@ jobs:
           python-version: '3.12'
       - name: Build the site
         run: python3 build.py
+      - name: Lay out the site as it is served, at aibenar.dev/<repository>/
+        # The pages link to sister sites with short addresses such as / and /EU-AI-Governance-Tracker/.
+        # Checking local files, the link checker needs a root folder shaped like the live site to resolve them.
+        # This repository goes in its real folder; the sister sites get placeholders, since each is checked
+        # by its own repository's link check.
+        run: |
+          S="$RUNNER_TEMP/site"; mkdir -p "$S"
+          cp -r "$GITHUB_WORKSPACE" "$S/${GITHUB_REPOSITORY#*/}"
+          for p in "" AI-Benar-Advisory ASEAN-AI-Governance-Tracker EU-AI-Governance-Tracker little-light-lit if-leaves-weave brain-boost-timer ai-asli/classroom; do
+            mkdir -p "$S/$p"; [ -f "$S/$p/index.html" ] || echo '<!doctype html><title>Sister site, checked by its own repository</title>' > "$S/$p/index.html"
+          done
+          echo "SITE_ROOT=$S" >> "$GITHUB_ENV"
       - name: Check links
         uses: lycheeverse/lychee-action@v2
         with:
@@ -50,7 +62,10 @@ jobs:
           # check strict — a genuinely dead link still fails — it only makes
           # it resilient to host-side rate-limiting. If this URL ever starts
           # failing persistently, exclude it in .lycheeignore instead.
+          # --timeout 30 (26 Nov 2026): slow government sites get 30 seconds per attempt instead of 20.
           args: >-
             --verbose --no-progress
             --max-retries 5 --retry-wait-time 10
+            --timeout 30
+            --root-dir ${{ env.SITE_ROOT }}
             ./index.html ./rows.html ./README.md ./PRIVACY.md
