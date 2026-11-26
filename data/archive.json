@@ -1,7 +1,438 @@
 {
  "about": "Archived copies of this tracker's sources, in the Internet Archive's Wayback Machine. Updated by scripts/archive_sources.py.",
- "updated": null,
+ "updated": "2026-11-26",
  "sources": 74,
- "archived": 0,
- "links": {}
+ "archived": 60,
+ "links": {
+  "http://www.imy.se/en/about-us/arkiv/nyhetsarkiv/police-unlawfully-used-facial-recognition-app/": {
+   "snapshot": "https://web.archive.org/web/20261031094627/http://www.imy.se/en/about-us/arkiv/nyhetsarkiv/police-unlawfully-used-facial-recognition-app/",
+   "timestamp": "20261031094627",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://autoriteitpersoonsgegevens.nl/documenten/boete-belastingdienst-kinderopvangtoeslag": {
+   "snapshot": "https://web.archive.org/web/20261029215803/https://autoriteitpersoonsgegevens.nl/documenten/boete-belastingdienst-kinderopvangtoeslag",
+   "timestamp": "20261029215803",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://autoriteitpersoonsgegevens.nl/en/current/tax-administration-fined-for-fraud-blacklist": {
+   "snapshot": "https://web.archive.org/web/20260825105621/https://autoriteitpersoonsgegevens.nl/en/current/tax-administration-fined-for-fraud-blacklist",
+   "timestamp": "20260825105621",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://autoriteitpersoonsgegevens.nl/en/documents/decision-fine-clearview-ai": {
+   "snapshot": "https://web.archive.org/web/20260301095113/https://autoriteitpersoonsgegevens.nl/en/documents/decision-fine-clearview-ai",
+   "timestamp": "20260301095113",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://commission.europa.eu/topics/competitiveness/competitiveness-coordination-tool-projects/ai-gigafactories_en": {
+   "snapshot": "https://web.archive.org/web/20261104133329/https://commission.europa.eu/topics/competitiveness/competitiveness-coordination-tool-projects/ai-gigafactories_en",
+   "timestamp": "20261104133329",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://data.consilium.europa.eu/doc/document/ST-13444-2026-INIT/en/pdf": {
+   "checked": "2026-11-26",
+   "attempts": 1,
+   "error": "Save Page Now did not confirm a copy (HTTP 401)"
+  },
+  "https://dataprotection.ie/en/news-media/latest-news/data-protection-commission-announces-commencement-inquiry-x-internet-unlimited-company-xiuc": {
+   "snapshot": "https://web.archive.org/web/20261110081244/https://dataprotection.ie/en/news-media/latest-news/data-protection-commission-announces-commencement-inquiry-x-internet-unlimited-company-xiuc",
+   "timestamp": "20261110081244",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://digital-skills-jobs.europa.eu/sites/default/files/2023-10/Artificial%20Intelligence%20Mission%20Austria%202030_AIM_AT_2030.pdf": {
+   "snapshot": "https://web.archive.org/web/20260705005410/https://digital-skills-jobs.europa.eu/sites/default/files/2023-10/Artificial%20Intelligence%20Mission%20Austria%202030_AIM_AT_2030.pdf",
+   "timestamp": "20260705005410",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://digital-strategy.ec.europa.eu/en/factpages/general-purpose-ai-obligations-under-ai-act": {
+   "snapshot": "https://web.archive.org/web/20261110180236/https://digital-strategy.ec.europa.eu/en/factpages/general-purpose-ai-obligations-under-ai-act",
+   "timestamp": "20261110180236",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://digital-strategy.ec.europa.eu/en/library/commission-decision-establishing-european-ai-office": {
+   "snapshot": "https://web.archive.org/web/20261027160911/https://digital-strategy.ec.europa.eu/en/library/commission-decision-establishing-european-ai-office",
+   "timestamp": "20261027160911",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://digital-strategy.ec.europa.eu/en/library/commission-publishes-guidelines-prohibited-artificial-intelligence-ai-practices-defined-ai-act": {
+   "snapshot": "https://web.archive.org/web/20261106120610/https://digital-strategy.ec.europa.eu/en/library/commission-publishes-guidelines-prohibited-artificial-intelligence-ai-practices-defined-ai-act",
+   "timestamp": "20261106120610",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://digital-strategy.ec.europa.eu/en/news/commission-publishes-code-practice-marking-and-labelling-ai-generated-content": {
+   "snapshot": "https://web.archive.org/web/20261116053011/https://digital-strategy.ec.europa.eu/en/news/commission-publishes-code-practice-marking-and-labelling-ai-generated-content",
+   "timestamp": "20261116053011",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://digital-strategy.ec.europa.eu/en/news/eu-announces-ai-factories-antennas-across-member-states-and-partner-countries": {
+   "snapshot": "https://web.archive.org/web/20261116012945/https://digital-strategy.ec.europa.eu/en/news/eu-announces-ai-factories-antennas-across-member-states-and-partner-countries",
+   "timestamp": "20261116012945",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://digital-strategy.ec.europa.eu/en/news/eu-launches-ai-gigafactories-call-boost-europes-computing-capacity-and-unlock-more-eu30-billion": {
+   "snapshot": "https://web.archive.org/web/20261116024832/https://digital-strategy.ec.europa.eu/en/news/eu-launches-ai-gigafactories-call-boost-europes-computing-capacity-and-unlock-more-eu30-billion",
+   "timestamp": "20261116024832",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://digital-strategy.ec.europa.eu/en/news/eu-rules-general-purpose-ai-models-start-apply-bringing-more-transparency-safety-and-accountability": {
+   "snapshot": "https://web.archive.org/web/20261108112057/https://digital-strategy.ec.europa.eu/en/news/eu-rules-general-purpose-ai-models-start-apply-bringing-more-transparency-safety-and-accountability",
+   "timestamp": "20261108112057",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://digital-strategy.ec.europa.eu/en/news/learn-more-about-guidelines-providers-general-purpose-ai-models": {
+   "snapshot": "https://web.archive.org/web/20260622152717/https://digital-strategy.ec.europa.eu/en/news/learn-more-about-guidelines-providers-general-purpose-ai-models",
+   "timestamp": "20260622152717",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://digital-strategy.ec.europa.eu/en/policies/ai-factories": {
+   "snapshot": "https://web.archive.org/web/20261116174648/https://digital-strategy.ec.europa.eu/en/policies/ai-factories",
+   "timestamp": "20261116174648",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://digital-strategy.ec.europa.eu/en/policies/contents-code-gpai": {
+   "snapshot": "https://web.archive.org/web/20261125163516/https://digital-strategy.ec.europa.eu/en/policies/contents-code-gpai",
+   "timestamp": "20261125163516",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://digital-strategy.ec.europa.eu/en/policies/guidelines-ai-transparency-obligations": {
+   "checked": "2026-11-26",
+   "attempts": 1,
+   "error": "<urlopen error _ssl.c:994: The handshake operation timed out>"
+  },
+  "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai": {
+   "snapshot": "https://web.archive.org/web/20261120185127/https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai",
+   "timestamp": "20261120185127",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://ec.europa.eu/commission/presscorner/api/files/document/print/en/ip_26_203/IP_26_203_EN.pdf": {
+   "snapshot": "https://web.archive.org/web/20260127210755/https://ec.europa.eu/commission/presscorner/api/files/document/print/en/ip_26_203/IP_26_203_EN.pdf",
+   "timestamp": "20260127210755",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://energy.ec.europa.eu/topics/energy-efficiency/energy-efficiency-targets-directive-and-rules/energy-efficiency-directive/energy-performance-data-centres_en": {
+   "snapshot": "https://web.archive.org/web/20261105171220/https://energy.ec.europa.eu/topics/energy-efficiency/energy-efficiency-targets-directive-and-rules/energy-efficiency-directive/energy-performance-data-centres_en",
+   "timestamp": "20261105171220",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://eur-lex.europa.eu/eli/reg/2026/1744/oj": {
+   "snapshot": "https://web.archive.org/web/20261125060142/https://eur-lex.europa.eu/eli/reg/2026/1744/oj",
+   "timestamp": "20261125060142",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://eur-lex.europa.eu/eli/reg_del/2024/1364/oj": {
+   "snapshot": "https://web.archive.org/web/20261104002948/https://eur-lex.europa.eu/eli/reg_del/2024/1364/oj",
+   "timestamp": "20261104002948",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689": {
+   "snapshot": "https://web.archive.org/web/20261112052926/https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689",
+   "timestamp": "20261112052926",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L:2016:119:FULL": {
+   "snapshot": "https://web.archive.org/web/20261011210220/https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L:2016:119:FULL",
+   "timestamp": "20261011210220",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32022R2065": {
+   "snapshot": "https://web.archive.org/web/20261110090121/https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32022R2065",
+   "timestamp": "20261110090121",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://eurohpc-ju.europa.eu/call-tenders-selection-artificial-intelligence-gigafactory-consortia-and-establishment-ai_en": {
+   "snapshot": "https://web.archive.org/web/20261116173307/https://eurohpc-ju.europa.eu/call-tenders-selection-artificial-intelligence-gigafactory-consortia-and-establishment-ai_en",
+   "timestamp": "20261116173307",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://eurohpc-ju.europa.eu/eurohpc-ju-selects-additional-ai-factories-strengthen-europes-ai-leadership-2025-03-12_en": {
+   "snapshot": "https://web.archive.org/web/20261116164524/https://eurohpc-ju.europa.eu/eurohpc-ju-selects-additional-ai-factories-strengthen-europes-ai-leadership-2025-03-12_en",
+   "timestamp": "20261116164524",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://eurohpc-ju.europa.eu/selection-first-seven-ai-factories-drive-europes-leadership-ai-2024-12-10_en": {
+   "snapshot": "https://web.archive.org/web/20261116164524/https://eurohpc-ju.europa.eu/selection-first-seven-ai-factories-drive-europes-leadership-ai-2024-12-10_en",
+   "timestamp": "20261116164524",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://innovative-initiatives.public.lu/sites/default/files/2020-09/AI_EN_0.pdf": {
+   "snapshot": "https://web.archive.org/web/20260517095550/https://innovative-initiatives.public.lu/sites/default/files/2020-09/AI_EN_0.pdf",
+   "timestamp": "20260517095550",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/document/digital-public-services-based-open-source-case-study-burokratt": {
+   "snapshot": "https://web.archive.org/web/20261027140522/https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/document/digital-public-services-based-open-source-case-study-burokratt",
+   "timestamp": "20261027140522",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://julkaisut.valtioneuvosto.fi/handle/10024/160391": {
+   "snapshot": "https://web.archive.org/web/20240330121144/https://julkaisut.valtioneuvosto.fi/handle/10024/160391",
+   "timestamp": "20240330121144",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://linc.cnil.fr/en/rage-against-flock-surveillance-company-heart-controversies-united-states": {
+   "checked": "2026-11-26",
+   "attempts": 1,
+   "error": "Save Page Now did not confirm a copy (HTTP 401)"
+  },
+  "https://link.springer.com/article/10.1365/s43439-026-00177-5": {
+   "checked": "2026-11-26",
+   "attempts": 1,
+   "error": "<urlopen error [Errno 111] Connection refused>"
+  },
+  "https://minefi.hosting.augure.com/Augure_Minefi/r/ContenuEnLigne/Download?id=334FD34F-7844-497E-9551-79EDFF3B2EEF&filename=1645%20-%20DP%20-%20Strat%C3%A9gie%20Nationale%20pour%20l%27IA%202%C3%A8me%20phase.pdf": {
+   "snapshot": "https://web.archive.org/web/20240831194758/https://minefi.hosting.augure.com/Augure_Minefi/r/ContenuEnLigne/Download?id=334FD34F-7844-497E-9551-79EDFF3B2EEF&filename=1645%20-%20DP%20-%20Strat%C3%A9gie%20Nationale%20pour%20l%27IA%202%C3%A8me%20phase.pdf",
+   "timestamp": "20240831194758",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://monitorpolski.gov.pl/M2021000002301.pdf": {
+   "snapshot": "https://web.archive.org/web/20260907185452/https://monitorpolski.gov.pl/M2021000002301.pdf",
+   "timestamp": "20260907185452",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://mpo.gov.cz/en/business/digital-economy/artificial-intelligence/": {
+   "snapshot": "https://web.archive.org/web/20260903203648/https://mpo.gov.cz/en/business/digital-economy/artificial-intelligence/",
+   "timestamp": "20260903203648",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://oecd.ai/en/dashboards/policy-initiatives/ai-portugal-2030-national-strategy-for-ai-1250": {
+   "snapshot": "https://web.archive.org/web/20251231120224/https://oecd.ai/en/dashboards/policy-initiatives/ai-portugal-2030-national-strategy-for-ai-1250",
+   "timestamp": "20251231120224",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.autoriteitpersoonsgegevens.nl/actueel/boete-belastingdienst-voor-zwarte-lijst-fsv": {
+   "snapshot": "https://web.archive.org/web/20261031100415/https://www.autoriteitpersoonsgegevens.nl/actueel/boete-belastingdienst-voor-zwarte-lijst-fsv",
+   "timestamp": "20261031100415",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.boe.es/buscar/doc.php?id=BOE-A-2023-18911": {
+   "snapshot": "https://web.archive.org/web/20261028184802/https://www.boe.es/buscar/doc.php?id=BOE-A-2023-18911",
+   "timestamp": "20261028184802",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.boe.es/buscar/doc.php?id=BOE-A-2023-22767": {
+   "snapshot": "https://web.archive.org/web/20261115081041/https://www.boe.es/buscar/doc.php?id=BOE-A-2023-22767",
+   "timestamp": "20261115081041",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.bundeswirtschaftsministerium.de/RZReg/rechenzentrums-register.html": {
+   "snapshot": "https://web.archive.org/web/20260925135233/https://www.bundeswirtschaftsministerium.de/RZReg/rechenzentrums-register.html",
+   "timestamp": "20260925135233",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.cnil.fr/sites/default/files/atoms/files/decision_ndeg_medp-2021-002.pdf": {
+   "checked": "2026-11-26",
+   "attempts": 1,
+   "error": "<urlopen error [Errno 111] Connection refused>"
+  },
+  "https://www.cso.ie/en/releasesandpublications/ep/p-dcmec/datacentresmeteredelectricityconsumption2025/keyfindings/": {
+   "snapshot": "https://web.archive.org/web/20261105171051/https://www.cso.ie/en/releasesandpublications/ep/p-dcmec/datacentresmeteredelectricityconsumption2025/keyfindings/",
+   "timestamp": "20261105171051",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.dataprotection.ie/en/news-media/press-releases/data-protection-commission-opens-investigation-x-xiuc": {
+   "snapshot": "https://web.archive.org/web/20261117191056/https://www.dataprotection.ie/en/news-media/press-releases/data-protection-commission-opens-investigation-x-xiuc",
+   "timestamp": "20261117191056",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.dataprotection.ie/en/news-media/press-releases/data-protection-commission-welcomes-conclusion-proceedings-relating-xs-ai-tool-grok": {
+   "snapshot": "https://web.archive.org/web/20261001022920/https://www.dataprotection.ie/en/news-media/press-releases/data-protection-commission-welcomes-conclusion-proceedings-relating-xs-ai-tool-grok",
+   "timestamp": "20261001022920",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.dpa.gr/sites/default/files/2022-08/35_2022%20anonym_EN_FINAL.pdf": {
+   "snapshot": "https://web.archive.org/web/20261022185750/https://www.dpa.gr/sites/default/files/2022-08/35_2022%20anonym_EN_FINAL.pdf",
+   "timestamp": "20261022185750",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.economie.gouv.fr/strategie-nationale-intelligence-artificielle": {
+   "snapshot": "https://web.archive.org/web/20250118064012/https://www.economie.gouv.fr/strategie-nationale-intelligence-artificielle",
+   "timestamp": "20250118064012",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.edpb.europa.eu/news/ai-the-italian-supervisory-authority-fines-company-behind-chatbot-replika_en": {
+   "snapshot": "https://web.archive.org/web/20261102145752/https://www.edpb.europa.eu/news/ai-the-italian-supervisory-authority-fines-company-behind-chatbot-replika_en",
+   "timestamp": "20261102145752",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.edpb.europa.eu/news/national-news/2022/tax-administration-fined-fraud-black-list_en": {
+   "snapshot": "https://web.archive.org/web/20260613184128/https://www.edpb.europa.eu/news/national-news/2022/tax-administration-fined-fraud-black-list_en",
+   "timestamp": "20260613184128",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.edpb.europa.eu/system/files/2024-05/edpb_20240523_report_chatgpt_taskforce_en.pdf": {
+   "snapshot": "https://web.archive.org/web/20260425072445/https://www.edpb.europa.eu/system/files/2024-05/edpb_20240523_report_chatgpt_taskforce_en.pdf",
+   "timestamp": "20260425072445",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.edpb.europa.eu/system/files/documents/2024-12/edpb_opinion_202428_ai-models_en.pdf": {
+   "snapshot": "https://web.archive.org/web/20261027131548/https://www.edpb.europa.eu/system/files/documents/2024-12/edpb_opinion_202428_ai-models_en.pdf",
+   "timestamp": "20261027131548",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.eng.em.dk/media/15704/305755-gb-version_4k.pdf": {
+   "snapshot": "https://web.archive.org/web/20260506022136/https://www.eng.em.dk/media/15704/305755-gb-version_4k.pdf",
+   "timestamp": "20260506022136",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.eurohpc-ju.europa.eu/eurohpc-ju-selects-six-additional-ai-factories-expand-europes-ai-capabilities-2025-10-10_en": {
+   "snapshot": "https://web.archive.org/web/20261025095603/https://www.eurohpc-ju.europa.eu/eurohpc-ju-selects-six-additional-ai-factories-expand-europes-ai-capabilities-2025-10-10_en",
+   "timestamp": "20261025095603",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.foerderinfo.bund.de/SharedDocs/Downloads/files/201201_fortschreibung_ki-strategie.pdf?__blob=publicationFile&v=2": {
+   "checked": "2026-11-26",
+   "attempts": 1,
+   "error": "Save Page Now did not confirm a copy (HTTP 401)"
+  },
+  "https://www.garanteprivacy.it/garante/doc.jsp?ID=10097450": {
+   "checked": "2026-11-26",
+   "attempts": 1,
+   "error": "<urlopen error _ssl.c:994: The handshake operation timed out>"
+  },
+  "https://www.garanteprivacy.it/garante/doc.jsp?ID=10269571": {
+   "checked": "2026-11-26",
+   "attempts": 1,
+   "error": "Save Page Now did not confirm a copy (HTTP 401)"
+  },
+  "https://www.garanteprivacy.it/garante/doc.jsp?ID=9852506": {
+   "checked": "2026-11-26",
+   "attempts": 1,
+   "error": "<urlopen error [Errno 111] Connection refused>"
+  },
+  "https://www.garanteprivacy.it/garante/doc.jsp?ID=9870847": {
+   "checked": "2026-11-26",
+   "attempts": 1,
+   "error": "<urlopen error [Errno 111] Connection refused>"
+  },
+  "https://www.garanteprivacy.it/garante/doc.jsp?ID=9874751": {
+   "checked": "2026-11-26",
+   "attempts": 1,
+   "error": "<urlopen error [Errno 111] Connection refused>"
+  },
+  "https://www.garanteprivacy.it/garante/doc.jsp?ID=9881490": {
+   "checked": "2026-11-26",
+   "attempts": 1,
+   "error": "<urlopen error [Errno 111] Connection refused>"
+  },
+  "https://www.garanteprivacy.it/web/garante-privacy-en/press-room": {
+   "snapshot": "https://web.archive.org/web/20261116180228/https://www.garanteprivacy.it/web/garante-privacy-en/press-room",
+   "timestamp": "20261116180228",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.gazzettaufficiale.it/eli/id/2025/09/25/25G00143/sg": {
+   "snapshot": "https://web.archive.org/web/20261116001327/https://www.gazzettaufficiale.it/eli/id/2025/09/25/25G00143/sg",
+   "timestamp": "20261116001327",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.gazzettaufficiale.it/eli/id/2026/09/15/26G00179/sg": {
+   "snapshot": "https://web.archive.org/web/20261006165939/https://www.gazzettaufficiale.it/eli/id/2026/09/15/26G00179/sg",
+   "timestamp": "20261006165939",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.gazzettaufficiale.it/eli/id/2026/10/08/26G00200/sg": {
+   "snapshot": "https://web.archive.org/web/20261026124731/https://www.gazzettaufficiale.it/eli/id/2026/10/08/26G00200/sg",
+   "timestamp": "20261026124731",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.gov.ie/ga/an-roinn-fiontar-turas%C3%B3ireachta-agus-fosta%C3%ADochta/preaseisiuinti/taoiseach-and-minister-troy-launch-government-roadmap-for-ai-in-ireland/": {
+   "checked": "2026-11-26",
+   "attempts": 1,
+   "error": "<urlopen error [Errno 111] Connection refused>"
+  },
+  "https://www.ki-strategie-deutschland.de/": {
+   "snapshot": "https://web.archive.org/web/20261124075550/https://www.ki-strategie-deutschland.de/",
+   "timestamp": "20261124075550",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.lamoncloa.gob.es/lang/en/gobierno/councilministers/Paginas/2024/20240514-council-press-conference.aspx": {
+   "snapshot": "https://web.archive.org/web/20260727085914/https://www.lamoncloa.gob.es/lang/en/gobierno/councilministers/Paginas/2024/20240514-council-press-conference.aspx",
+   "timestamp": "20260727085914",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.legifrance.gouv.fr/cnil/id/CNILTEXT000046444859": {
+   "snapshot": "https://web.archive.org/web/20230523104237/https://www.legifrance.gouv.fr/cnil/id/CNILTEXT000046444859",
+   "timestamp": "20230523104237",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.officielebekendmakingen.nl/kst-35510-2.pdf": {
+   "checked": "2026-11-26",
+   "attempts": 1,
+   "error": "<urlopen error _ssl.c:994: The handshake operation timed out>"
+  },
+  "https://www.ohchr.org/en/press-releases/2020/02/landmark-ruling-dutch-court-stops-government-attempts-spy-poor-un-expert?LangID=E&NewsID=25522": {
+   "snapshot": "https://web.archive.org/web/20231207210402/https://www.ohchr.org/en/press-releases/2020/02/landmark-ruling-dutch-court-stops-government-attempts-spy-poor-un-expert?LangID=E&NewsID=25522",
+   "timestamp": "20231207210402",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://www.umweltbundesamt.de/themen/rechenzentrumsregister-daten-widerlegen-hohe": {
+   "snapshot": "https://web.archive.org/web/20261109150735/https://www.umweltbundesamt.de/themen/rechenzentrumsregister-daten-widerlegen-hohe",
+   "timestamp": "20261109150735",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  },
+  "https://zoek.officielebekendmakingen.nl/blg-903667.pdf": {
+   "snapshot": "https://web.archive.org/web/20240808044208/https://zoek.officielebekendmakingen.nl/blg-903667.pdf",
+   "timestamp": "20240808044208",
+   "checked": "2026-11-26",
+   "how": "already in the archive"
+  }
+ }
 }
