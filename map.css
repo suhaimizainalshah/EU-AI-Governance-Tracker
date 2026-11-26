@@ -160,3 +160,7 @@ html[data-theme="dark"] .tile:hover, html[data-theme="dark"] .tile:focus-visible
 .sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 .cp .tablewrap{position:relative}   /* keeps hidden screen-reader labels inside the scrolling table, so the page never scrolls sideways */
+
+/* the tracker name and logo lead back to its starting view */
+.title-home{color:inherit;text-decoration:none}.title-home:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.15em}
+a.emblem,a.mark{display:inline-flex;text-decoration:none}
