@@ -23,7 +23,7 @@ SITE_URL = "https://suhaimizainalshah.github.io/EU-AI-Governance-Tracker"
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(ROOT, "data")
-VERSION = "0.1"
+VERSION = "0.2"
 VERIFIED = "2026-11-23"
 CREDIT = "Prepared by Suhaimi Zainal Shah with assistance from Muse and Claude AI (Anthropic)."
 
@@ -186,6 +186,66 @@ for code, name in PLACES:
         "total": len(incs) + len(resps) + len(insts),
     }
 
+# ---------- Compute: chips, data centres and verification (0.2). Optional files: the tracker builds without them.
+C_PLACES = {"EU", "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE"}
+C_KIND = {"ai_rule", "guidance", "data_centre_rule", "public_investment", "publication"}
+C_SITE_STATUS = {"selected", "operational", "under_construction", "announced", "cancelled"}
+C_PQ = {"public_list", "energy_reporting", "official_figures"}
+C_PS = {"yes", "partly", "checked_not_found"}          # a cell that was not checked has no row: the page shows "not checked yet"
+C_CONF = {"high", "medium", "low"}
+def real_date(v):                                  # the pattern check accepts 2026-13-40; this checks the calendar too
+    import datetime
+    try:
+        if len(v) == 10: datetime.date.fromisoformat(v)
+        elif len(v) == 7: datetime.date.fromisoformat(v + "-01")
+        return True
+    except ValueError:
+        return False
+def read_optional(name):
+    return read(name) if os.path.exists(os.path.join(DATA, name)) else []
+def https(t, i, v, required=True):
+    check(bool(v) or not required, f"compute {t} {i}: a source link is required")
+    check(not v or v.startswith("https://"), f"compute {t} {i}: source links must start with https://")
+compute_measures, compute_sites, compute_profile = read_optional("compute_measures.csv"), read_optional("compute_sites.csv"), read_optional("compute_profile.csv")
+for r in compute_measures:
+    i = r.get("id", "?")
+    check(r.get("jurisdiction") in C_PLACES, f"compute measure {i}: jurisdiction must be EU or a member-state code such as DE")
+    check(r.get("date_precision") in ("day", "month", "year") and valid_date(r.get("date", ""), r.get("date_precision", "")) and real_date(r.get("date", "")), f"compute measure {i}: date must be a real date matching its date_precision")
+    check(r.get("kind") in C_KIND, f"compute measure {i}: kind must be one of {sorted(C_KIND)}")
+    check(r.get("binding") in ("yes", "no"), f"compute measure {i}: binding must be yes or no")
+    check(r.get("confidence") in C_CONF, f"compute measure {i}: confidence must be high, medium or low")
+    check(bool(r.get("title")) and bool(r.get("summary")), f"compute measure {i}: title and summary are required")
+    check(valid_date(r.get("verified_on", ""), "day"), f"compute measure {i}: verified_on must be YYYY-MM-DD")
+    https("measure", i, r.get("source_url", "")); https("measure", i, r.get("more_sources", ""), False)
+for r in compute_sites:
+    i = r.get("id", "?")
+    check(r.get("country") in C_PLACES - {"EU"}, f"compute site {i}: country must be a member-state code such as DE")
+    check(r.get("status") in C_SITE_STATUS, f"compute site {i}: status must be one of {sorted(C_SITE_STATUS)}")
+    check(not r.get("announced") or (valid_date(r["announced"], "month") and real_date(r["announced"])), f"compute site {i}: announced must be a real YYYY-MM or empty")
+    check(not r.get("capacity_mw") or re.match(r"^\d+(\.\d+)?$", r["capacity_mw"]), f"compute site {i}: capacity_mw must be a number or empty")
+    check(r.get("confidence") in C_CONF, f"compute site {i}: confidence must be high, medium or low")
+    https("site", i, r.get("source_url", ""))
+_seen = set()
+for r in compute_profile:
+    i = r.get("id", "?")
+    check(r.get("country") in C_PLACES, f"compute profile {i}: country must be EU or a member-state code")
+    check(r.get("question") in C_PQ, f"compute profile {i}: question must be one of {sorted(C_PQ)}")
+    check(r.get("status") in C_PS, f"compute profile {i}: status must be one of {sorted(C_PS)} (leave a cell out if it was not checked)")
+    check((r.get("country"), r.get("question")) not in _seen, f"compute profile {i}: this place and question already have a row")
+    _seen.add((r.get("country"), r.get("question")))
+    check(bool(r.get("detail")), f"compute profile {i}: detail is required: say what was found, or where you looked")
+    check(valid_date(r.get("checked_on", ""), "day"), f"compute profile {i}: checked_on must be YYYY-MM-DD")
+    check(r.get("confidence") in C_CONF, f"compute profile {i}: confidence must be high, medium or low")
+    https("profile", i, r.get("source_url", ""), r.get("status") != "checked_not_found")
+for t, rows in (("measure", compute_measures), ("site", compute_sites), ("profile", compute_profile)):
+    ids = [r.get("id") for r in rows]; check(len(ids) == len(set(ids)), f"compute {t}: every id must be unique")
+compute_measures.sort(key=lambda m: m["date"], reverse=True)
+if errors:                                         # the compute checks run after the main ones, so report their errors here too
+    print(f"{len(errors)} problem(s) in the compute data; nothing was written:", file=sys.stderr)
+    for e in errors:
+        print("  - " + e, file=sys.stderr)
+    sys.exit(1)
+
 data = {
     "meta": {
         "version": VERSION,
@@ -197,6 +257,7 @@ data = {
     },
     "places": [{"code": c, "name": n} for c, n in PLACES],
     "coverage": coverage,
+    "compute": {"measures": compute_measures, "sites": compute_sites, "profile": compute_profile},
     "incidents": incidents,
     "responses": responses,
     "instruments": instruments,

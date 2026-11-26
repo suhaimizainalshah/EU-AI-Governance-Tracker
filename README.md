@@ -1,8 +1,8 @@
 # EU AI Governance Tracker
 
-A public, verifiable record of AI incidents, official responses and policy instruments across the European Union and its 27 member states. Modelled on the [ASEAN AI Governance Tracker](https://suhaimizainalshah.github.io/ASEAN-AI-Governance-Tracker/) by the same author.
+A public, verifiable record of **AI governance and AI safety** across the European Union and its 27 member states: AI incidents, official responses, policy instruments and compute. Modelled on the [ASEAN AI Governance Tracker](https://suhaimizainalshah.github.io/ASEAN-AI-Governance-Tracker/) by the same author.
 
-**Status: Version 0.1 · 7 incidents · 16 responses · 29 instruments · 6 backlog items · data verified 23 November 2026.** Every row has a source link to a primary or official source.
+**Status: Version 0.2 · 7 incidents · 16 responses · 29 instruments · 6 backlog items · data verified 23 November 2026 · Compute tab added 26 November 2026.** Every row has a source link to a primary or official source.
 
 ## What it covers
 
@@ -14,6 +14,16 @@ A public, verifiable record of AI incidents, official responses and policy instr
 ## Coverage in this release
 
 Sixteen member states have a verified row (Austria, Czechia, Denmark, Estonia, Finland, France, Germany, Greece, Ireland, Italy, Luxembourg, Netherlands, Poland, Portugal, Spain, Sweden) plus the EU-wide entry. Eleven member states have no verified row yet — Belgium, Bulgaria, Croatia, Cyprus, Hungary, Latvia, Lithuania, Malta, Romania, Slovakia and Slovenia — that is a finding about this release, not about those states. A follow-up pass will target their national AI strategies and data-protection actions. Unsure items are in `data/backlog.csv`, never in the data.
+
+## Compute tab (new in 0.2)
+
+AI governance and safety depend on compute: the chips and data centres that train and run AI. The Compute tab keeps to three parts, each row with an official source and the date it was checked:
+
+- **The rules** (`data/compute_measures.csv`): the AI Act's compute threshold (general-purpose AI models trained with more than 10^25 floating-point operations are presumed to carry systemic risk; the Commission says the threshold is under review), its application and enforcement dates, data-centre reporting under the Energy Efficiency Directive, and the AI Factories and AI Gigafactories milestones.
+- **Public compute projects** (`data/compute_sites.csv`): the AI Factories whose names are confirmed on official pages (13 of the 19 so far). AI Gigafactory sites are added once selected (expected early 2027).
+- **Can it be checked?** (`data/compute_profile.csv`): three questions for the EU and four large markets (Germany, France, Ireland, the Netherlands): a public list of data centres, energy reporting, and official figures. A cell that was not checked has no row and shows as "not checked yet".
+
+`build.py` checks every compute row (places, kinds, statuses, dates, https sources, unique ids, one profile row per place and question). Megawatt capacity figures are left out until they can be sourced to something a reader can open and check. The ASEAN tracker has a matching Compute tab, so the two can be compared.
 
 ## How to use it
 

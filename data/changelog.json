@@ -1,5 +1,10 @@
 [
  {
+  "date": "2026-11-26",
+  "change": "Version 0.2: a Compute tab (the AI Act's compute threshold and its dates, data-centre reporting rules, 13 of the 19 EU AI Factories, the AI Gigafactories call, and a 'can it be checked?' profile for the EU, Germany and Ireland); fold-out Compare sections; 'What's new in this update' on the Updates tab; header search; and cookie-free visitor counting with live totals. Every compute row has an official source.",
+  "rows": "all"
+ },
+ {
   "date": "2026-11-22",
   "change": "Version 0.1: first release with 4 incidents, 9 responses and 17 instruments across the EU and 8 member states. Every row has a source link and a confidence rating.",
   "rows": "all"
