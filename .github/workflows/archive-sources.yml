@@ -1,0 +1,51 @@
+name: Archive sources
+
+# Saves the tracker's sources to the Internet Archive (the Wayback Machine), and keeps a list of the copies in
+# data/archive.json. The tracker page reads that file and shows an "archived copy" link beside each source, so an
+# entry can still be checked if its original page moves, blocks visitors or disappears.
+#
+# Runs every Wednesday, whenever the data changes on main, and by hand (Actions → Archive sources → Run workflow).
+# Works without an account, slowly. For more reliable saving, add a free archive.org account's keys
+# (https://archive.org/account/s3.php) as repository secrets named IA_ACCESS_KEY and IA_SECRET_KEY.
+on:
+  schedule:
+    - cron: "0 3 * * 3"
+  push:
+    branches: [main]
+    paths: ["data/*.csv"]
+  workflow_dispatch:
+    inputs:
+      saves:
+        description: "How many new copies to ask for in this run (the archive limits how fast it saves)"
+        default: "25"
+
+permissions:
+  contents: write        # to commit data/archive.json
+
+concurrency:
+  group: archive-sources
+  cancel-in-progress: false
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Save new sources to the Internet Archive
+        env:
+          IA_ACCESS_KEY: ${{ secrets.IA_ACCESS_KEY }}
+          IA_SECRET_KEY: ${{ secrets.IA_SECRET_KEY }}
+          ARCHIVE_MAX_SAVES: ${{ inputs.saves || '25' }}
+        run: python3 scripts/archive_sources.py
+      - name: Keep the list of copies
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/archive.json
+          if git diff --cached --quiet; then echo "No new copies this time."; exit 0; fi
+          git commit -m "Archive sources in the Internet Archive"
+          git pull --rebase --autostash && git push
