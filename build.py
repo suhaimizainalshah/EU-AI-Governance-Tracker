@@ -19,7 +19,10 @@ from email.utils import format_datetime
 from html import escape as hesc
 from xml.sax.saxutils import escape as xesc
 
-SITE_URL = "https://suhaimizainalshah.github.io/EU-AI-Governance-Tracker"
+SITE_URL = "https://aibenar.dev/EU-AI-Governance-Tracker"
+# Each feed update's ID keeps the tracker's first address. An ID is a fixed label, not a link: changing it would make feed readers show
+# every past update again as new. Links, the canonical address and sharing tags use SITE_URL.
+FEED_ID_BASE = "https://suhaimizainalshah.github.io/EU-AI-Governance-Tracker"
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(ROOT, "data")
@@ -369,7 +372,7 @@ feed_items_json = []
 for c in changelog:
     d = changelog_date(c["date"])
     pub = format_datetime(datetime.combine(d, time(12, 0)))
-    guid = f"{SITE_URL}/index.html#tab=updates-{c['date']}-{c['rows']}"
+    guid = f"{FEED_ID_BASE}/index.html#tab=updates-{c['date']}-{c['rows']}"
     title = c["change"] if len(c["change"]) <= 140 else c["change"][:137] + "…"
     feed_items_rss.append(
         f"<item><title>{xesc(title)}</title><link>{SITE_URL}/index.html#tab=updates</link>"
