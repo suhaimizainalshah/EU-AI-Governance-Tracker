@@ -9,7 +9,10 @@
  *
  * Usage:
  *   TileMap.render(container, {
- *     region: 'eu' | 'asean',
+ *     region: 'eu' | 'asean' | 'me',
+ *     counts: {...},           // optional: counts per place already made by the tracker ({code: {key: n, total: n}})
+ *     metrics: [...],          // optional: [{key, label, one, many}], when a tracker counts other things (the Middle East
+ *                              // tracker counts laws and policies, compute and incidents). Without it, the EU and ASEAN metrics.
  *     data: DATA,              // tracker data blob {incidents, responses, instruments}
  *     metric: 'total',         // initial metric
  *     selected: null,          // currently selected country code, or null
@@ -109,6 +112,29 @@
     }
   };
 
+  LAYOUTS.me = {
+    label: 'MENAT',
+    regional: { code: 'GCC', name: 'Gulf Cooperation Council (shared)' },
+    places: [
+      { code: 'TR', name: 'Türkiye', row: 0, col: 1 },
+      { code: 'IL', name: 'Israel', row: 1, col: 0 },
+      { code: 'JO', name: 'Jordan', row: 1, col: 1 },
+      { code: 'KW', name: 'Kuwait', row: 1, col: 3 },
+      { code: 'EG', name: 'Egypt', row: 2, col: 0 },
+      { code: 'SA', name: 'Saudi Arabia', row: 2, col: 2 },
+      { code: 'BH', name: 'Bahrain', row: 2, col: 3 },
+      { code: 'QA', name: 'Qatar', row: 2, col: 4 },
+      { code: 'AE', name: 'UAE', row: 3, col: 4 },
+      { code: 'OM', name: 'Oman', row: 3, col: 5 }
+    ],
+    cols: 6,
+    mobile: { places: [
+      { code: 'TR', name: 'Türkiye', row: 0, col: 1 }, { code: 'IL', name: 'Israel', row: 1, col: 0 }, { code: 'JO', name: 'Jordan', row: 1, col: 1 },
+      { code: 'KW', name: 'Kuwait', row: 1, col: 2 }, { code: 'EG', name: 'Egypt', row: 2, col: 0 }, { code: 'SA', name: 'Saudi Arabia', row: 2, col: 1 },
+      { code: 'BH', name: 'Bahrain', row: 2, col: 2 }, { code: 'QA', name: 'Qatar', row: 3, col: 2 }, { code: 'AE', name: 'UAE', row: 3, col: 1 },
+      { code: 'OM', name: 'Oman', row: 4, col: 2 } ], cols: 3 }
+  };
+
   var METRICS = [
     { key: 'total', label: 'Total' },
     { key: 'incidents', label: 'Incidents' },
@@ -191,7 +217,13 @@
       ? { label: base.label, regional: base.regional, places: base.mobile.places, cols: base.mobile.cols }
       : base;
     var data = opts.data || {};
-    var counts = computeCounts(data);
+    var counts = opts.counts || computeCounts(data);
+    var KINDS = opts.metrics || [{ key: 'incidents', label: 'Incidents', one: 'incident', many: 'incidents' },
+      { key: 'responses', label: 'Responses', one: 'response', many: 'responses' },
+      { key: 'instruments', label: 'Instruments', one: 'instrument', many: 'instruments' }];
+    var metricList = [{ key: 'total', label: 'Total' }].concat(KINDS);
+    function zero() { var z = { total: 0 }; KINDS.forEach(function (k) { z[k.key] = 0; }); return z; }
+    function words(c) { return KINDS.map(function (k) { return c[k.key] + ' ' + (c[k.key] === 1 ? k.one : k.many); }); }
     var metric = opts.metric || 'total';
     var selected = opts.selected || null;
     var onSelect = opts.onSelect || function () {};
@@ -199,28 +231,23 @@
     var allCodes = [layout.regional.code].concat(layout.places.map(function (p) { return p.code; }));
     var max = 0;
     allCodes.forEach(function (code) {
-      var c = counts[code] || { incidents: 0, responses: 0, instruments: 0, total: 0 };
+      var c = counts[code] || zero();
       if (c[metric] > max) max = c[metric];
     });
-    var totals = { incidents: 0, responses: 0, instruments: 0, total: 0 };
+    var totals = zero();
     allCodes.forEach(function (code) {
       var c = counts[code];
       if (!c) return;
-      totals.incidents += c.incidents;
-      totals.responses += c.responses;
-      totals.instruments += c.instruments;
+      KINDS.forEach(function (k) { totals[k.key] += c[k.key] || 0; });
       totals.total += c.total;
     });
 
     function tileHTML(place, isRegional) {
       var code = place.code;
-      var c = counts[code] || { incidents: 0, responses: 0, instruments: 0, total: 0 };
+      var c = counts[code] || zero();
       var bin = binIndex(c[metric], max);
       /* The accessible name starts with the visible text (code, name, number), so voice-control users can say what they see. */
-      var label = code + ' ' + place.name + ' ' + c[metric] + ': ' + c.incidents + ' incident' + (c.incidents === 1 ? '' : 's') +
-        ', ' + c.responses + ' response' + (c.responses === 1 ? '' : 's') +
-        ', ' + c.instruments + ' instrument' + (c.instruments === 1 ? '' : 's') +
-        ', ' + c.total + ' total';
+      var label = code + ' ' + place.name + ' ' + c[metric] + ': ' + words(c).join(', ') + ', ' + c.total + ' total';
       /* Tooltip alignment: edge tiles align the tooltip to their edge so it
        * never hangs off the side of the screen on a phone. Top-row and
        * regional tiles show it below instead of above, so it never hangs
@@ -240,18 +267,15 @@
         '<span class="tile-name">' + esc(place.name) + '</span> ' +
         '<span class="tile-value">' + c[metric] + '</span>' +
         '<span class="tile-tip" aria-hidden="true">' + esc(place.name) + '<br>' +
-        c.incidents + ' incidents · ' + c.responses + ' responses<br>' +
-        c.instruments + ' instruments · ' + c.total + ' total</span>' +
+        words(c).map(esc).join(' · ') + '<br>' + c.total + ' total</span>' +
         '</button>';
     }
 
     var html = '';
     html += '<div class="map-head"><div class="map-total"><strong>' + esc(layout.label) +
-      ' total: ' + totals.incidents + ' incidents · ' + totals.responses +
-      ' responses · ' + totals.instruments + ' instruments · ' + totals.total +
-      ' records</strong></div>';
+      ' total: ' + words(totals).map(esc).join(' · ') + ' · ' + totals.total + ' ' + esc(opts.totalWord || 'records') + '</strong></div>';
     html += '<div class="map-metrics" role="group" aria-label="Colour the map by">';
-    METRICS.forEach(function (m) {
+    metricList.forEach(function (m) {
       html += '<button type="button" class="metric' + (metric === m.key ? ' active' : '') +
         '" data-metric="' + m.key + '" aria-pressed="' + (metric === m.key) + '">' + m.label + '</button>';
     });
@@ -273,7 +297,7 @@
     html += '<p class="map-note">Tile cartogram — each country is one tile, positioned roughly ' +
       'geographically. Tiles are not geographic borders. Click a tile to filter the ' +
       'tracker below to that place; click it again to clear. Hover or tap a tile to ' +
-      'see its numbers.</p>';
+      'see its numbers.' + (opts.note ? ' ' + esc(opts.note) : '') + '</p>';
 
     container.innerHTML = html;
 
@@ -288,7 +312,7 @@
         var m = el.getAttribute('data-metric');
         if (opts.onMetric) opts.onMetric(m);
         render(container, {
-          region: opts.region, data: data, metric: m,
+          region: opts.region, data: data, metric: m, counts: opts.counts, metrics: opts.metrics, totalWord: opts.totalWord, note: opts.note,
           selected: selected, onSelect: onSelect, onMetric: opts.onMetric
         });
       });

@@ -159,6 +159,14 @@ table.live tr.lead th, table.live tr.lead td { font-weight:700; }
 .overdue{border:2px solid #b07a00;background:#fff6df;color:#3d2a00;border-radius:12px;padding:.7rem 1rem;margin:1rem 0}
 .overdue b{color:#7a4f00}
 @media (prefers-color-scheme:dark){.overdue{background:#2c2412;color:#f3e6c8;border-color:#e9bb5c}.overdue b{color:#e9bb5c}}
+header.site{position:relative;overflow:hidden}
+header.site::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.10;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='#1b5e4f' stroke-width='1.2'%3E%3Cpath d='M0 34 H6 V10 H30 V28 H14 V18 H22'/%3E%3Cpath d='M22 18 V22'/%3E%3Cpath d='M30 34 H40'/%3E%3C/g%3E%3C/svg%3E");background-size:40px 40px;
+  -webkit-mask-image:linear-gradient(90deg,transparent 40%,#000 90%);mask-image:linear-gradient(90deg,transparent 40%,#000 90%)}
+html[data-theme="dark"] header.site::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='#7cc4a8' stroke-width='1.2'%3E%3Cpath d='M0 34 H6 V10 H30 V28 H14 V18 H22'/%3E%3Cpath d='M22 18 V22'/%3E%3Cpath d='M30 34 H40'/%3E%3C/g%3E%3C/svg%3E");opacity:.12}
+header.site>*{position:relative}
+@media print{header.site::before{display:none}}
+/* the masthead pattern: the classical meander (Greek key), found from Greek temples to Roman mosaics across Europe (28 November 2026) */
+#term-tip{position:fixed;z-index:1000;max-width:min(20rem,calc(100vw - 2rem));background:#14201c;color:#fff;font-size:.88rem;line-height:1.45;padding:.5rem .7rem;border-radius:8px;box-shadow:0 6px 24px rgba(0,0,0,.25);pointer-events:none}#term-tip[hidden]{display:none}
 </style>
 </head>
 <body id="top">
@@ -172,14 +180,14 @@ table.live tr.lead th, table.live tr.lead td { font-weight:700; }
       <p class="meta-line"><span class="counts" id="head-counts"></span> · <span id="head-verified"></span></p>
     </div>
     <div class="head-tools">
-      <span><a class="home-link" href="/">AI Benar home</a> · <a class="home-link" href="/ASEAN-AI-Governance-Tracker/">ASEAN tracker</a> · <a class="home-link" href="/Middle-East-AI-Governance-Tracker/">Middle East tracker</a> · <a class="home-link" href="/blog/">Blog</a> · <a class="home-link" href="/sitemap/">Site map</a></span>
+      <span><a class="home-link" href="/">AI Benar home</a> · <a class="home-link" href="/ASEAN-AI-Governance-Tracker/">ASEAN tracker</a> · <a class="home-link" href="/Middle-East-AI-Governance-Tracker/">MENAT tracker</a> · <a class="home-link" href="/blog/">Blog</a> · <a class="home-link" href="/sitemap/">Site map</a></span>
       <div class="hsearch" id="pf-slot" role="search" aria-label="Search the tracker"></div>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">Dark mode</button>
     </div>
   </div>
   <div class="wrap">
     <nav class="tabs" aria-label="Tracker sections" id="tabs"></nav>
-    <p class="abbr-tip" data-noabbr>Words with a <span class="abbr-demo">dotted underline</span> are short forms or organisations: hover over them, or tap on a phone, to see what they are. The <a href="#tab=method">Method tab</a> lists them all.</p>
+    <p class="abbr-tip" data-noabbr>Words with a <span class="abbr-demo">dotted underline</span> are short forms or organisations. Hover over one to see what it means, or tap it on a touchscreen. The <a href="#tab=method">Method tab</a> lists them all.</p>
   </div>
 </header>
 <main id="main">
@@ -199,7 +207,7 @@ table.live tr.lead th, table.live tr.lead td { font-weight:700; }
     <p>This tracker is an independent project by Suhaimi Zainal Shah (AI Benar Advisory). It is not affiliated with, endorsed by, or acting on behalf of the European Union or any EU institution.</p>
     <p>This page sets no cookies. It counts visits with GoatCounter, a privacy-focused service, as totals only. <a href="https://github.com/suhaimizainalshah/EU-AI-Governance-Tracker/blob/main/PRIVACY.md">Privacy notice</a> — including what the page stores in your browser (your theme choice and Review tick boxes, both kept on your device only).</p>
   </div>
-  <div class="wrap"><p class="foot-nav"><a href="#top">Back to top</a><a href="/">AI Benar home</a><a href="/ASEAN-AI-Governance-Tracker/">ASEAN tracker</a><a href="/Middle-East-AI-Governance-Tracker/">Middle East tracker</a><a href="/sitemap/">Site map</a><a href="/blog/">Blog</a></p></div>
+  <div class="wrap"><p class="foot-nav"><a href="#top">Back to top</a><a href="/">AI Benar home</a><a href="/ASEAN-AI-Governance-Tracker/">ASEAN tracker</a><a href="/Middle-East-AI-Governance-Tracker/">MENAT tracker</a><a href="/sitemap/">Site map</a><a href="/blog/">Blog</a></p></div>
 </footer>
 <a href="#top" class="to-top" id="toTop" aria-label="Back to top" title="Back to top" hidden><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
 <script>
@@ -1008,5 +1016,33 @@ if (DATA && DATA.meta && DATA.meta.preview) {            // a pull-request previ
   }).catch(function () {});
 })();
 </script>
+<script>/* Short forms explained at once, on hover, keyboard focus or tap (28 November 2026). The browser's own tooltip appears only after a
+   delay, and never on a touchscreen, so this shows the same words immediately and hides the built-in one while it is open. */
+(function () {
+  var tip = document.createElement('div'); tip.id = 'term-tip'; tip.setAttribute('role', 'tooltip'); tip.hidden = true;
+  document.addEventListener('DOMContentLoaded', function () { document.body.appendChild(tip); });
+  var cur = null, SEL = 'abbr[title],abbr[data-tip]';
+  function show(a) {
+    if (cur && cur !== a) hide();
+    var t = a.getAttribute('title') || a.dataset.tip; if (!t) return;
+    if (a.hasAttribute('title')) { a.dataset.tip = t; a.removeAttribute('title'); }
+    if (!tip.parentNode) document.body.appendChild(tip);
+    tip.textContent = t; tip.hidden = false; a.setAttribute('aria-describedby', 'term-tip'); cur = a;
+    var r = a.getBoundingClientRect(), w = tip.offsetWidth, h = tip.offsetHeight;
+    var x = Math.min(Math.max(8, r.left + r.width / 2 - w / 2), innerWidth - w - 8), y = r.top - h - 8;
+    if (y < 8) y = r.bottom + 8;
+    tip.style.left = x + 'px'; tip.style.top = y + 'px';
+  }
+  function hide() { if (!cur) return; cur.removeAttribute('aria-describedby'); if (cur.dataset.tip) cur.setAttribute('title', cur.dataset.tip); tip.hidden = true; cur = null; }
+  function find(e) { return e.target && e.target.closest ? e.target.closest(SEL) : null; }
+  document.addEventListener('pointerover', function (e) { if (e.pointerType !== 'mouse') return; var a = find(e); if (a) show(a); else if (cur) hide(); });   // a real mouse only: a tap's synthetic events must not close it
+  document.addEventListener('focusin', function (e) { var a = find(e); if (a) show(a); else hide(); });
+  document.addEventListener('click', function (e) { var a = find(e); if (a) show(a); else hide(); }, true);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hide(); });
+  addEventListener('scroll', function () { if (cur) hide(); }, { passive: true });
+  new MutationObserver(function () { document.querySelectorAll('abbr[title]:not([tabindex])').forEach(function (a) { a.tabIndex = 0; }); })
+    .observe(document.documentElement, { childList: true, subtree: true });
+})();</script>
+
 </body>
 </html>
