@@ -28,6 +28,11 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(ROOT, "data")
 VERSION = "0.2"
 VERIFIED = "2026-11-23"
+# How often the tracker is checked, and when it last was. After EVERY check, set LAST_CHECKED to that day, even if nothing new was found:
+# the page says "Updated every two weeks. Last checked …" and shows an overdue notice by itself if a check is late.
+UPDATE_EVERY_DAYS = 14
+LAST_CHECKED = "2026-11-27"
+LAST_CHECKED = max(LAST_CHECKED, VERIFIED)
 CREDIT = "Prepared by Suhaimi Zainal Shah with assistance from Muse and Claude AI (Anthropic)."
 
 PLACES = [
@@ -253,6 +258,8 @@ data = {
     "meta": {
         "version": VERSION,
         "verified": VERIFIED,
+        "checked": LAST_CHECKED,
+        "update_every_days": UPDATE_EVERY_DAYS,
         "built": VERIFIED,
         "credit": CREDIT,
         "counts": {"incidents": len(incidents), "responses": len(responses),

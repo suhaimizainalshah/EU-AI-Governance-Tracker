@@ -156,6 +156,9 @@ details.fold > summary:focus-visible { outline:3px solid var(--focus); outline-o
 @media (max-width: 700px) { .hsearch { width:100%; } .hsearch .pf-results:not(:empty) { left:0; right:auto; width:100%; } }
 table.live tr.lead th, table.live tr.lead td { font-weight:700; }
 .small { font-size:.88rem; }
+.overdue{border:2px solid #b07a00;background:#fff6df;color:#3d2a00;border-radius:12px;padding:.7rem 1rem;margin:1rem 0}
+.overdue b{color:#7a4f00}
+@media (prefers-color-scheme:dark){.overdue{background:#2c2412;color:#f3e6c8;border-color:#e9bb5c}.overdue b{color:#e9bb5c}}
 </style>
 </head>
 <body id="top">
@@ -169,7 +172,7 @@ table.live tr.lead th, table.live tr.lead td { font-weight:700; }
       <p class="meta-line"><span class="counts" id="head-counts"></span> · <span id="head-verified"></span></p>
     </div>
     <div class="head-tools">
-      <span><a class="home-link" href="/">AI Benar home</a> · <a class="home-link" href="/ASEAN-AI-Governance-Tracker/">ASEAN tracker</a> · <a class="home-link" href="/blog/">Blog</a> · <a class="home-link" href="/sitemap/">Site map</a></span>
+      <span><a class="home-link" href="/">AI Benar home</a> · <a class="home-link" href="/ASEAN-AI-Governance-Tracker/">ASEAN tracker</a> · <a class="home-link" href="/Middle-East-AI-Governance-Tracker/">Middle East tracker</a> · <a class="home-link" href="/blog/">Blog</a> · <a class="home-link" href="/sitemap/">Site map</a></span>
       <div class="hsearch" id="pf-slot" role="search" aria-label="Search the tracker"></div>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">Dark mode</button>
     </div>
@@ -180,6 +183,7 @@ table.live tr.lead th, table.live tr.lead td { font-weight:700; }
   </div>
 </header>
 <main id="main">
+<div class="overdue" id="overdue" role="status" hidden></div>
   <div class="wrap layout">
     <aside id="rail" aria-label="Filters"></aside>
     <div id="view"></div>
@@ -195,7 +199,7 @@ table.live tr.lead th, table.live tr.lead td { font-weight:700; }
     <p>This tracker is an independent project by Suhaimi Zainal Shah (AI Benar Advisory). It is not affiliated with, endorsed by, or acting on behalf of the European Union or any EU institution.</p>
     <p>This page sets no cookies. It counts visits with GoatCounter, a privacy-focused service, as totals only. <a href="https://github.com/suhaimizainalshah/EU-AI-Governance-Tracker/blob/main/PRIVACY.md">Privacy notice</a> — including what the page stores in your browser (your theme choice and Review tick boxes, both kept on your device only).</p>
   </div>
-  <div class="wrap"><p class="foot-nav"><a href="#top">Back to top</a><a href="/">AI Benar home</a><a href="/sitemap/">Site map</a><a href="/blog/">Blog</a></p></div>
+  <div class="wrap"><p class="foot-nav"><a href="#top">Back to top</a><a href="/">AI Benar home</a><a href="/ASEAN-AI-Governance-Tracker/">ASEAN tracker</a><a href="/Middle-East-AI-Governance-Tracker/">Middle East tracker</a><a href="/sitemap/">Site map</a><a href="/blog/">Blog</a></p></div>
 </footer>
 <a href="#top" class="to-top" id="toTop" aria-label="Back to top" title="Back to top" hidden><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
 <script>
@@ -207,6 +211,26 @@ document.addEventListener("click",function(e){var a=e.target.closest&&e.target.c
 <script src="chart-builder.js"></script>
 <script src="compute.js"></script>
 <script>
+/* Honest timing (December 2026): how often this tracker is checked, when it last was, and, worked out on the reader's own device,
+   whether a check is late. The notice appears by itself, and disappears once the last-checked date is updated and the page rebuilt. */
+function cadenceInfo(meta) {
+  var every = meta.update_every_days || 7, checked = meta.checked || meta.verified;
+  var words = { 7: 'weekly', 14: 'every two weeks', 30: 'monthly', 31: 'monthly', 91: 'quarterly', 92: 'quarterly' }[every] || ('every ' + every + ' days');
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var long = function (iso) { var p = iso.split('-'); return (+p[2]) + ' ' + months[+p[1] - 1] + ' ' + p[0]; };
+  var at = function (iso) { return new Date(iso + 'T12:00:00Z').getTime(); };
+  var due = new Date(at(checked) + every * 86400000).toISOString().slice(0, 10);
+  var age = Math.floor((Date.now() - at(checked)) / 86400000), late = age > every + Math.max(3, Math.round(every / 2));
+  return { words: words, late: late, age: age, checkedText: long(checked),
+           label: 'Updated ' + words + '. Last checked ' + long(checked) + (late ? '.' : '; next check due by ' + long(due) + '.'),
+           notice: 'This tracker is overdue for its ' + words + ' check. It was last checked on ' + long(checked) + ' (' + age + ' days ago), so some recent developments may be missing. Check the sources for anything newer.' };
+}
+function showCadence(meta, labelEl, noticeEl) {
+  var c = cadenceInfo(meta);
+  if (labelEl) labelEl.textContent = c.label;
+  if (noticeEl && c.late) { noticeEl.hidden = false; noticeEl.innerHTML = '<b>' + c.notice.split('. ')[0] + '.</b> ' + c.notice.split('. ').slice(1).join('. '); }
+}
+
 const DATA = /*__DATA__*/null;
 if (DATA && DATA.meta && DATA.meta.preview) {            // a pull-request preview, never the public site
   var addPreviewBar = function () { document.body.insertAdjacentHTML('afterbegin', '<div class="previewbar" role="note">Preview of a pull request. Nothing here is on the public site until the pull request is merged.</div>'); };
@@ -916,7 +940,8 @@ if (DATA && DATA.meta && DATA.meta.preview) {            // a pull-request previ
   // header + theme
   var c = DATA.meta.counts;
   document.getElementById('head-counts').textContent = c.incidents + ' incidents · ' + c.responses + ' responses · ' + c.instruments + ' instruments';
-  document.getElementById('head-verified').textContent = 'Version ' + DATA.meta.version + ', last verified ' + DATA.meta.verified;
+  document.getElementById('head-verified').textContent = cadenceInfo(DATA.meta).label + ' Version ' + DATA.meta.version + '.';
+  showCadence(DATA.meta, null, document.getElementById('overdue'));
   document.getElementById('credit').textContent = DATA.meta.credit;
   var savedTheme = null;
   try { savedTheme = localStorage.getItem('euat_theme'); } catch (e) { /* private mode */ }
