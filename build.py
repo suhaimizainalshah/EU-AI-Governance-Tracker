@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""EU AI Governance Tracker — validator + generator.
+"""EU AI Governance and Safety Tracker — validator + generator.
 
 Reads data/*.csv, validates every row (bad row = build stops), and writes
 index.html by replacing the placeholder /*__DATA__*/null in template.html
@@ -351,12 +351,12 @@ rows_html = f"""<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="canonical" href="{SITE_URL}/index.html">
-<title>All entries — EU AI Governance Tracker</title>
-<meta name="description" content="Every incident, official response and policy instrument in the EU AI Governance Tracker, as plain text.">
+<title>All entries — EU AI Governance and Safety Tracker</title>
+<meta name="description" content="Every incident, official response and policy instrument in the EU AI Governance and Safety Tracker, as plain text.">
 <style>body{{font:16px/1.55 system-ui,sans-serif;max-width:760px;margin:0 auto;padding:1rem;color:#1c2b26}}article{{border:1px solid #c9d4cf;border-radius:10px;padding:1rem;margin:0 0 1rem}}h2{{font-size:1.1rem;margin:.1rem 0 .4rem}}a{{color:#1b5e4f}}</style>
 </head>
 <body>
-<h1>All entries — EU AI Governance Tracker</h1>
+<h1>All entries — EU AI Governance and Safety Tracker</h1>
 <p>A plain-text list of every entry in the tracker, for search engines and the
 site's own full-text search. Use the <a href="index.html">tracker</a> to
 filter, compare and review entries. Data: CC BY 4.0.</p>
@@ -394,9 +394,9 @@ for c in changelog:
     })
 feed_xml = ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
             "<rss version=\"2.0\"><channel>"
-            "<title>EU AI Governance Tracker — updates</title>"
+            "<title>EU AI Governance and Safety Tracker — updates</title>"
             f"<link>{SITE_URL}/</link>"
-            "<description>Updates to the EU AI Governance Tracker: new verified rows, corrections and releases.</description>"
+            "<description>Updates to the EU AI Governance and Safety Tracker: new verified rows, corrections and releases.</description>"
             "<language>en-GB</language>"
             + "".join(feed_items_rss) +
             "</channel></rss>\n")
@@ -404,10 +404,10 @@ with open(os.path.join(ROOT, "feed.xml"), "w", encoding="utf-8") as f:
     f.write(feed_xml)
 feed_json = {
     "version": "https://jsonfeed.org/version/1.1",
-    "title": "EU AI Governance Tracker — updates",
+    "title": "EU AI Governance and Safety Tracker — updates",
     "home_page_url": SITE_URL + "/",
     "feed_url": SITE_URL + "/feed.json",
-    "description": "Updates to the EU AI Governance Tracker: new verified rows, corrections and releases.",
+    "description": "Updates to the EU AI Governance and Safety Tracker: new verified rows, corrections and releases.",
     "items": feed_items_json,
 }
 with open(os.path.join(ROOT, "feed.json"), "w", encoding="utf-8") as f:

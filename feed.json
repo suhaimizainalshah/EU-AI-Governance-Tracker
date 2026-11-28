@@ -1,9 +1,9 @@
 {
  "version": "https://jsonfeed.org/version/1.1",
- "title": "EU AI Governance Tracker — updates",
+ "title": "EU AI Governance and Safety Tracker — updates",
  "home_page_url": "https://aibenar.dev/EU-AI-Governance-Tracker/",
  "feed_url": "https://aibenar.dev/EU-AI-Governance-Tracker/feed.json",
- "description": "Updates to the EU AI Governance Tracker: new verified rows, corrections and releases.",
+ "description": "Updates to the EU AI Governance and Safety Tracker: new verified rows, corrections and releases.",
  "items": [
   {
    "id": "https://suhaimizainalshah.github.io/EU-AI-Governance-Tracker/index.html#tab=updates-2026-11-26-all",

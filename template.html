@@ -6,17 +6,17 @@
 <!-- CSP: the only external script is GoatCounter (gc.zgo.at), and the only external fetches are its counting and public counter endpoints (*.goatcounter.com). -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.goatcounter.com; connect-src 'self' https://*.goatcounter.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none';">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>EU AI Governance Tracker</title>
+<title>EU AI Governance and Safety Tracker</title>
 <link rel="canonical" href="https://aibenar.dev/EU-AI-Governance-Tracker/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="AI Benar">
-<meta property="og:title" content="EU AI Governance Tracker">
+<meta property="og:title" content="EU AI Governance and Safety Tracker">
 <meta property="og:description" content="A public, verifiable record of AI governance and AI safety across the European Union and its 27 member states.">
 <meta property="og:url" content="https://aibenar.dev/EU-AI-Governance-Tracker/">
 <meta name="description" content="A public, verifiable record of AI governance and AI safety across the European Union and its 27 member states: AI incidents, official responses, policy instruments and compute. Every entry has a source link.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='4' fill='%231b5e4f'/%3E%3Cpath d='M4.6 12V8.6M7 12V5.6M9.4 12V9M11.8 12V7.2' stroke='%23ffffff' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E">
-<link rel="alternate" type="application/rss+xml" title="EU AI Governance Tracker — updates" href="feed.xml">
-<link rel="alternate" type="application/feed+json" title="EU AI Governance Tracker — updates" href="feed.json">
+<link rel="alternate" type="application/rss+xml" title="EU AI Governance and Safety Tracker — updates" href="feed.xml">
+<link rel="alternate" type="application/feed+json" title="EU AI Governance and Safety Tracker — updates" href="feed.json">
 <link rel="stylesheet" href="map.css">
 <style>
 :root { --bg:#f7f5f0; --surface:#fff; --text:#1c2b26; --muted:#5a6b65; --border:#c9d4cf; --accent:#1b5e4f; --accent-soft:#e3efe9; --pill:#eef2f0; --shadow:0 1px 4px rgba(0,0,0,.08); --focus:#0b5cad; }
@@ -167,7 +167,7 @@ table.live tr.lead th, table.live tr.lead td { font-weight:700; }
   <div class="wrap head-row">
     <a class="mark" href="./" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 48 48" width="48" height="48" aria-hidden="true" focusable="false"><rect x="1" y="1" width="46" height="46" rx="11" fill="#1b5e4f"/><path d="M13 36V27M20 36V16M27 36V28M34 36V22" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/><circle cx="34" cy="13" r="3.2" fill="#fff"/></svg></a>
     <div class="head-text">
-      <h1><a class="title-home" href="./" title="Back to the start of the tracker">EU AI Governance Tracker</a></h1>
+      <h1><a class="title-home" href="./" title="Back to the start of the tracker">EU AI Governance and Safety Tracker</a></h1>
       <p class="sub">A public, verifiable record of AI governance and AI safety across the European Union and its 27 member states: AI incidents, official responses, policy instruments and compute. Every entry has a source link.</p>
       <p class="meta-line"><span class="counts" id="head-counts"></span> · <span id="head-verified"></span></p>
     </div>
@@ -475,7 +475,7 @@ if (DATA && DATA.meta && DATA.meta.preview) {            // a pull-request previ
     });
     html += '</tbody></table></div></section>';
     $('#view').innerHTML = html;
-    foldCompare($('#view'), function () { if (window.ChartBuilder) { var names = {}; (DATA.places || []).forEach(function (pl) { names[pl.code] = pl.name; }); ChartBuilder.mount(document.getElementById('chart-builder'), { data: DATA, names: names, tracker: 'EU AI Governance Tracker', region: 'EU' }); } });
+    foldCompare($('#view'), function () { if (window.ChartBuilder) { var names = {}; (DATA.places || []).forEach(function (pl) { names[pl.code] = pl.name; }); ChartBuilder.mount(document.getElementById('chart-builder'), { data: DATA, names: names, tracker: 'EU AI Governance and Safety Tracker', region: 'EU' }); } });
   }
   // What's new in this update: the rows verified on the latest date, read-only, each with its source.
   function whatsNewHTML() {

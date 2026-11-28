@@ -1,4 +1,4 @@
-# EU AI Governance Tracker
+# EU AI Governance and Safety Tracker
 
 A public, verifiable record of **AI governance and AI safety** across the European Union and its 27 member states: AI incidents, official responses, policy instruments and compute. Modelled on the [ASEAN AI Governance Tracker](https://aibenar.dev/ASEAN-AI-Governance-Tracker/) by the same author.
 
